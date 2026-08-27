@@ -3101,9 +3101,9 @@
     {}
   ScriptInputs:
     "":
-      openAIToken: [INSERT OPENAI TOKEN HERE]
-      googleToken: [INSERT GOOGLE TOKEN HERE]
-      snapToken: [INSERT SNAP TOKEN HERE]
+      openAIToken: d3e81de4-3683-40cc-808d-650e5021a4d6
+      googleToken: fb3082be-2d8b-40c0-a013-f4d284da484a
+      snapToken: 6b91651c-42ea-427c-aad8-fe5da6d56316
       enableLogging: false
       enableLoggingLifecycle: false
   ScriptTypes:
