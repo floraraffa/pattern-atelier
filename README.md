@@ -21,7 +21,7 @@ Describe a garment with your voice, pick your size, and Pattern Atelier drafts r
 
 ## Setup
 1. Open `Pattern Atelier.esproj` in Lens Studio 5.23+.
-2. Generate your Remote Service Gateway tokens (**Window → Remote Service Gateway Token**) and paste them into the `RemoteServiceGatewayCredentials` object (OpenAI / Google / Snap). *Tokens are never committed to this repo.*
+2. Remote Service Gateway tokens are included in the scene for hackathon judging convenience (usage is covered by Snap's hackathon program). If they stop working, generate fresh ones (**Window → Remote Service Gateway Token**) and paste them into the `RemoteServiceGatewayCredentials` object (OpenAI / Google / Snap).
 3. Refresh the preview, or push to Spectacles.
 
 ## Built with CLAD
