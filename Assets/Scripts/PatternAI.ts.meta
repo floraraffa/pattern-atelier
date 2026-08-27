@@ -1,0 +1,52 @@
+- !<AssetImportMetadata/67bd7bdc-942e-4da6-9e71-f285da83fbea>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 7d12b8d6-3b86-474c-beca-00deac1791c1
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 7d12b8d6-3b86-474c-beca-00deac1791c1
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 1f745785-44aa-4a69-9761-875d208f8002
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/1f745785-44aa-4a69-9761-875d208f8002>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 9ad3f11c-73ff-4a7c-95f3-c063879b6774
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    geminiModel: false
+    openaiModel: false
+    providerOrder: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - openaiModel: gpt-4.1-nano
+      geminiModel: gemini-2.0-flash
+      providerOrder: "openai,gemini,deepseek"
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @input string openaiModel = "gpt-4o"'
+    - '// @input string geminiModel = "gemini-2.0-flash"'
+    - '// @input string providerOrder = "openai,gemini,deepseek"'

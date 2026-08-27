@@ -1,0 +1,127 @@
+- !<AssetImportMetadata/fe414acb-1c62-4aae-b450-6a3307f706dc>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 835a6ce6-cc9c-4cfc-9378-026363437e06
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 835a6ce6-cc9c-4cfc-9378-026363437e06
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> ff01193b-26f3-4cdd-a058-46db24e4159c
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/ff01193b-26f3-4cdd-a058-46db24e4159c>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 654fae02-8e0f-48de-b4d2-efee80eb5757
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    bubbleTextRotDeg: false
+    bubbleTextSize: false
+    bubbleTextX: false
+    bubbleTextY: false
+    bubbleWrapChars: false
+    closeBtnSize: false
+    closeBtnX: false
+    closeBtnY: false
+    closeMaterial: false
+    cloudMaterial: false
+    cloudSizeCm: false
+    faceRotDeg: false
+    faceX: false
+    faceY: false
+    helpBtnSize: false
+    helpBtnX: false
+    helpBtnY: false
+    maxBubbleLines: false
+    texCloseBtn: false
+    texClosed: false
+    texError: false
+    texHappy: false
+    texOpen: false
+    texQuestionBtn: false
+    texThink: false
+    texWink: false
+    ttsEnabled: false
+    ttsVoice: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - cloudMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      texClosed: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      texOpen: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      texThink: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      texError: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      texHappy: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      texWink: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      closeMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      texCloseBtn: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      texQuestionBtn: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      cloudSizeCm: !<float> 20.000000
+      faceX: !<float> 0.000000
+      faceY: !<float> 0.000000
+      faceRotDeg: !<float> 0.000000
+      bubbleTextSize: 0.820000
+      bubbleTextX: -2.500000
+      bubbleTextY: -3.800000
+      bubbleTextRotDeg: !<float> 0.000000
+      bubbleWrapChars: !<float> 26.000000
+      maxBubbleLines: !<float> 4.000000
+      closeBtnX: 6.500000
+      closeBtnY: 1.500000
+      closeBtnSize: !<float> 4.000000
+      helpBtnX: !<float> 0.000000
+      helpBtnY: !<float> -4.000000
+      helpBtnSize: !<float> 5.000000
+      ttsVoice: nova
+      ttsEnabled: true
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material cloudMaterial
+    - // @input Asset.Texture texClosed
+    - // @input Asset.Texture texOpen
+    - // @input Asset.Texture texThink
+    - // @input Asset.Texture texError
+    - // @input Asset.Texture texHappy
+    - // @input Asset.Texture texWink
+    - // @input Asset.Material closeMaterial
+    - // @input Asset.Texture texCloseBtn
+    - // @input Asset.Texture texQuestionBtn
+    - // @input float cloudSizeCm = 10
+    - // @input float faceX
+    - // @input float faceY
+    - // @input float faceRotDeg
+    - // @input float bubbleTextSize = 0.82
+    - // @input float bubbleTextX = -2.5
+    - // @input float bubbleTextY = -3.8
+    - // @input float bubbleTextRotDeg
+    - // @input float bubbleWrapChars = 26
+    - // @input float maxBubbleLines = 4
+    - // @input float closeBtnX = 6.5
+    - // @input float closeBtnY = 1.5
+    - // @input float closeBtnSize = 4
+    - // @input float helpBtnX
+    - // @input float helpBtnY = -4
+    - // @input float helpBtnSize = 5
+    - '// @input string ttsVoice = "nova"'
+    - // @input bool ttsEnabled = true

@@ -1,0 +1,421 @@
+// Internacionalización del taller. El idioma se elige al inicio (carrusel)
+// y aplica a: UI, mascota, prompts de la AI, TTS y ASR.
+// Los textos largos (guías de corte) los genera la AI en el idioma elegido;
+// acá viven solo los strings cortos de la interfaz.
+
+export interface LangDef {
+  code: string; // ISO
+  native: string; // nombre en su propio idioma (se muestra en el carrusel)
+  aiName: string; // cómo pedirle el idioma a la AI/TTS en inglés
+}
+
+export const LANGS: LangDef[] = [
+  { code: "es", native: "Español", aiName: "Spanish (Rioplatense)" },
+  { code: "en", native: "English", aiName: "English" },
+  { code: "pt", native: "Português", aiName: "Portuguese" },
+  { code: "fr", native: "Français", aiName: "French" },
+  { code: "it", native: "Italiano", aiName: "Italian" },
+  { code: "de", native: "Deutsch", aiName: "German" },
+  { code: "ru", native: "Русский", aiName: "Russian" },
+  { code: "zh", native: "中文", aiName: "Chinese (Mandarin)" },
+  { code: "ja", native: "日本語", aiName: "Japanese" },
+  { code: "ar", native: "العربية", aiName: "Arabic" },
+  { code: "fa", native: "فارسی", aiName: "Persian (Farsi)" }
+];
+
+// Prendas: el orden define el carrusel. key → nombre por idioma.
+export const GARMENT_KEYS = ["pollera", "corpino", "camisa", "pantalon", "vestido", "mono", "mallas", "ropa_interior"];
+
+const GARMENTS: { [lang: string]: string[] } = {
+  es: ["Pollera", "Corpiño", "Camisa", "Pantalón", "Vestido", "Mono", "Mallas", "Ropa interior"],
+  en: ["Skirt", "Bodice", "Shirt", "Pants", "Dress", "Jumpsuit", "Leggings", "Underwear"],
+  pt: ["Saia", "Corpete", "Camisa", "Calça", "Vestido", "Macacão", "Leggings", "Roupa íntima"],
+  fr: ["Jupe", "Corsage", "Chemise", "Pantalon", "Robe", "Combinaison", "Leggings", "Sous-vêtements"],
+  it: ["Gonna", "Corpetto", "Camicia", "Pantaloni", "Vestito", "Tuta", "Leggings", "Intimo"],
+  de: ["Rock", "Oberteil", "Hemd", "Hose", "Kleid", "Overall", "Leggings", "Unterwäsche"],
+  ru: ["Юбка", "Лиф", "Рубашка", "Брюки", "Платье", "Комбинезон", "Леггинсы", "Бельё"],
+  zh: ["半身裙", "上衣", "衬衫", "裤子", "连衣裙", "连体衣", "打底裤", "内衣"],
+  ja: ["スカート", "ボディス", "シャツ", "パンツ", "ワンピース", "ジャンプスーツ", "レギンス", "下着"],
+  ar: ["تنورة", "صدرية", "قميص", "بنطال", "فستان", "أفرول", "ليقنز", "ملابس داخلية"],
+  fa: ["دامن", "بالاتنه", "پیراهن مردانه", "شلوار", "پیراهن", "سرهمی", "ساق‌پوش", "لباس زیر"]
+};
+
+const STRINGS: { [lang: string]: { [key: string]: string } } = {
+  es: {
+    menuTitle: "¿Qué querés crear hoy?",
+    tellStyle: "● Contame el estilo",
+    sayChange: "● Decí el cambio",
+    typeHint: "Escribí tu pedido y apretá Enter",
+    modify: "Modificar",
+    toFabric: "A la tela ▸",
+    backMenu: "‹ Menú",
+    listening: "● Escuchando…",
+    working: "Creando tus moldes…",
+    mIntroMenu: "¡Hola! Soy Nube ☁ Deslizá con los dedos y elegí qué prenda querés crear.",
+    mStyle: "¡Buena elección! Tocá el botón y contame cómo la querés: estilo, largo, medidas…",
+    mCards: "Tocá \"Modificar\" para ajustar un molde, o \"A la tela\" para cortarlo.",
+    mModify: "Decime qué cambiamos de este molde.",
+    mError: "Uy, algo falló. Probá de nuevo en un ratito.",
+    mGender: "¿Para quién es la prenda?",
+    genderF: "Mujer",
+    genderM: "Hombre",
+    continueBtn: "CONTINUAR",
+    chooseLang: "Elegí tu idioma",
+    atelierSpeak: "Tu taller va a hablar con vos",
+    mIntroLang: "¡Hola! Soy Nube ☁ Elegí tu idioma",
+    sizeTitle: "Elegí tu talle",
+    mSize: "Para saber tu talle, medí tu cintura con un centímetro. Cada talle muestra busto·cintura·cadera en cm. Si dudás entre dos, elegí el más grande.",
+    cutLine: "✂ CORTAR por la línea amarilla",
+    sewLine: "— línea de costura (margen {0} cm)",
+    onFold: "AL DOBLEZ",
+    doubleFabric: "×2 · DOBLE TELA"
+  },
+  en: {
+    menuTitle: "What do you want to create?",
+    tellStyle: "● Describe the style",
+    sayChange: "● Say the change",
+    typeHint: "Type your request and press Enter",
+    modify: "Modify",
+    toFabric: "To fabric ▸",
+    backMenu: "‹ Menu",
+    listening: "● Listening…",
+    working: "Drafting your patterns…",
+    mIntroMenu: "Hi! I'm Cloud ☁ Swipe with your fingers and pick a garment to create.",
+    mStyle: "Great choice! Tap the button and tell me how you want it: style, length, measurements…",
+    mCards: "Tap \"Modify\" to adjust a pattern, or \"To fabric\" to cut it.",
+    mModify: "Tell me what to change on this pattern.",
+    mError: "Oops, something failed. Try again in a moment.",
+    mGender: "Who is the garment for?",
+    genderF: "Woman",
+    genderM: "Man",
+    continueBtn: "CONTINUE",
+    chooseLang: "Choose your language",
+    atelierSpeak: "Your atelier will speak with you",
+    mIntroLang: "Hi! I'm Cloud ☁ Pick your language",
+    sizeTitle: "Pick your size",
+    mSize: "To find your size, measure your waist with a tape. Each size shows bust·waist·hip in cm. If in doubt, pick the larger one.",
+    cutLine: "✂ CUT along the yellow line",
+    sewLine: "— sewing line ({0} cm allowance)",
+    onFold: "ON FOLD",
+    doubleFabric: "×2 · DOUBLE LAYER"
+  },
+  pt: {
+    menuTitle: "O que você quer criar?",
+    tellStyle: "● Descreva o estilo",
+    sayChange: "● Diga a mudança",
+    typeHint: "Digite seu pedido e aperte Enter",
+    modify: "Modificar",
+    toFabric: "Para o tecido ▸",
+    backMenu: "‹ Menu",
+    listening: "● Ouvindo…",
+    working: "Criando seus moldes…",
+    mIntroMenu: "Oi! Sou a Nuvem ☁ Deslize com os dedos e escolha a peça.",
+    mStyle: "Ótima escolha! Toque no botão e me conte como você quer: estilo, comprimento, medidas…",
+    mCards: "Toque em \"Modificar\" para ajustar, ou \"Para o tecido\" para cortar.",
+    mModify: "Me diga o que mudar neste molde.",
+    mError: "Ops, algo falhou. Tente de novo.",
+    mGender: "Para quem é a peça?",
+    genderF: "Mulher",
+    genderM: "Homem",
+    continueBtn: "CONTINUAR",
+    chooseLang: "Escolha seu idioma",
+    atelierSpeak: "Seu ateliê vai falar com você",
+    mIntroLang: "Oi! Sou a Nuvem ☁ Escolha seu idioma",
+    sizeTitle: "Escolha seu tamanho",
+    mSize: "Meça sua cintura com uma fita métrica. Cada tamanho mostra busto·cintura·quadril em cm. Na dúvida, escolha o maior.",
+    cutLine: "✂ CORTE pela linha amarela",
+    sewLine: "— linha de costura (margem {0} cm)",
+    onFold: "NA DOBRA",
+    doubleFabric: "×2 · TECIDO DUPLO"
+  },
+  fr: {
+    menuTitle: "Que veux-tu créer ?",
+    tellStyle: "● Décris le style",
+    sayChange: "● Dis le changement",
+    typeHint: "Écris ta demande et appuie sur Entrée",
+    modify: "Modifier",
+    toFabric: "Vers le tissu ▸",
+    backMenu: "‹ Menu",
+    listening: "● J'écoute…",
+    working: "Je trace tes patrons…",
+    mIntroMenu: "Salut ! Je suis Nuage ☁ Fais glisser avec les doigts et choisis un vêtement.",
+    mStyle: "Super choix ! Touche le bouton et dis-moi comment tu le veux : style, longueur, mesures…",
+    mCards: "Touche « Modifier » pour ajuster, ou « Vers le tissu » pour couper.",
+    mModify: "Dis-moi quoi changer sur ce patron.",
+    mError: "Oups, une erreur. Réessaie dans un instant.",
+    mGender: "Pour qui est le vêtement ?",
+    genderF: "Femme",
+    genderM: "Homme",
+    continueBtn: "CONTINUER",
+    chooseLang: "Choisis ta langue",
+    atelierSpeak: "Ton atelier parlera avec toi",
+    mIntroLang: "Salut ! Je suis Nuage ☁ Choisis ta langue",
+    sizeTitle: "Choisis ta taille",
+    mSize: "Mesure ton tour de taille avec un mètre ruban. Chaque taille montre buste·taille·hanches en cm. En cas de doute, prends la plus grande.",
+    cutLine: "✂ COUPER le long de la ligne jaune",
+    sewLine: "— ligne de couture (marge {0} cm)",
+    onFold: "AU PLI",
+    doubleFabric: "×2 · TISSU DOUBLE"
+  },
+  it: {
+    menuTitle: "Cosa vuoi creare oggi?",
+    tellStyle: "● Descrivi lo stile",
+    sayChange: "● Dì la modifica",
+    typeHint: "Scrivi la richiesta e premi Invio",
+    modify: "Modifica",
+    toFabric: "Sul tessuto ▸",
+    backMenu: "‹ Menu",
+    listening: "● Ascolto…",
+    working: "Sto tracciando i cartamodelli…",
+    mIntroMenu: "Ciao! Sono Nuvola ☁ Scorri con le dita e scegli un capo.",
+    mStyle: "Ottima scelta! Tocca il pulsante e dimmi come lo vuoi: stile, lunghezza, misure…",
+    mCards: "Tocca \"Modifica\" per regolare, o \"Sul tessuto\" per tagliare.",
+    mModify: "Dimmi cosa cambiare in questo cartamodello.",
+    mError: "Ops, qualcosa è andato storto. Riprova.",
+    mGender: "Per chi è il capo?",
+    genderF: "Donna",
+    genderM: "Uomo",
+    continueBtn: "CONTINUA",
+    chooseLang: "Scegli la tua lingua",
+    atelierSpeak: "Il tuo atelier parlerà con te",
+    mIntroLang: "Ciao! Sono Nuvola ☁ Scegli la lingua",
+    sizeTitle: "Scegli la tua taglia",
+    mSize: "Misura il girovita con un metro. Ogni taglia mostra busto·vita·fianchi in cm. Nel dubbio, scegli la più grande.",
+    cutLine: "✂ TAGLIA lungo la linea gialla",
+    sewLine: "— linea di cucitura (margine {0} cm)",
+    onFold: "SULLA PIEGA",
+    doubleFabric: "×2 · TESSUTO DOPPIO"
+  },
+  de: {
+    menuTitle: "Was möchtest du erschaffen?",
+    tellStyle: "● Beschreib den Stil",
+    sayChange: "● Sag die Änderung",
+    typeHint: "Tippe deinen Wunsch und drücke Enter",
+    modify: "Ändern",
+    toFabric: "Auf den Stoff ▸",
+    backMenu: "‹ Menü",
+    listening: "● Ich höre…",
+    working: "Ich zeichne deine Schnittmuster…",
+    mIntroMenu: "Hallo! Ich bin Wolke ☁ Wische mit den Fingern und wähle ein Kleidungsstück.",
+    mStyle: "Gute Wahl! Tippe den Knopf und sag mir, wie du es willst: Stil, Länge, Maße…",
+    mCards: "Tippe „Ändern\" zum Anpassen oder „Auf den Stoff\" zum Zuschneiden.",
+    mModify: "Sag mir, was ich an diesem Schnitt ändern soll.",
+    mError: "Ups, etwas ging schief. Versuch es gleich nochmal.",
+    mGender: "Für wen ist das Stück?",
+    genderF: "Frau",
+    genderM: "Mann",
+    continueBtn: "WEITER",
+    chooseLang: "Wähle deine Sprache",
+    atelierSpeak: "Dein Atelier spricht mit dir",
+    mIntroLang: "Hallo! Ich bin Wolke ☁ Wähle deine Sprache",
+    sizeTitle: "Wähle deine Größe",
+    mSize: "Miss deine Taille mit einem Maßband. Jede Größe zeigt Brust·Taille·Hüfte in cm. Im Zweifel nimm die größere.",
+    cutLine: "✂ SCHNEIDEN entlang der gelben Linie",
+    sewLine: "— Nahtlinie ({0} cm Zugabe)",
+    onFold: "IM STOFFBRUCH",
+    doubleFabric: "×2 · DOPPELTER STOFF"
+  },
+  ru: {
+    menuTitle: "Что будем создавать?",
+    tellStyle: "● Опиши стиль",
+    sayChange: "● Скажи изменение",
+    typeHint: "Напиши запрос и нажми Enter",
+    modify: "Изменить",
+    toFabric: "На ткань ▸",
+    backMenu: "‹ Меню",
+    listening: "● Слушаю…",
+    working: "Строю выкройки…",
+    mIntroMenu: "Привет! Я Облачко ☁ Листай пальцами и выбери изделие.",
+    mStyle: "Отличный выбор! Нажми кнопку и расскажи: стиль, длина, мерки…",
+    mCards: "Нажми «Изменить» для правок или «На ткань» для раскроя.",
+    mModify: "Скажи, что изменить в этой выкройке.",
+    mError: "Ой, что-то пошло не так. Попробуй ещё раз.",
+    mGender: "Для кого эта одежда?",
+    genderF: "Женщина",
+    genderM: "Мужчина",
+    continueBtn: "ДАЛЕЕ",
+    chooseLang: "Выбери язык",
+    atelierSpeak: "Твоё ателье заговорит с тобой",
+    mIntroLang: "Привет! Я Облачко ☁ Выбери язык",
+    sizeTitle: "Выбери свой размер",
+    mSize: "Измерь талию сантиметровой лентой. Размер показывает грудь·талию·бёдра в см. Если сомневаешься — бери больший.",
+    cutLine: "✂ РЕЗАТЬ по жёлтой линии",
+    sewLine: "— линия шва (припуск {0} см)",
+    onFold: "СО СГИБОМ",
+    doubleFabric: "×2 · ДВОЙНАЯ ТКАНЬ"
+  },
+  zh: {
+    menuTitle: "今天想做什么?",
+    tellStyle: "● 描述款式",
+    sayChange: "● 说出修改",
+    typeHint: "输入需求后按回车",
+    modify: "修改",
+    toFabric: "放到布料 ▸",
+    backMenu: "‹ 菜单",
+    listening: "● 正在听…",
+    working: "正在绘制纸样…",
+    mIntroMenu: "你好!我是小云 ☁ 用手指滑动,选择要做的服装。",
+    mStyle: "好选择!点按钮告诉我:款式、长度、尺寸…",
+    mCards: "点\"修改\"调整纸样,或\"放到布料\"裁剪。",
+    mModify: "告诉我要改这个纸样的什么。",
+    mError: "哎呀,出错了。请稍后再试。",
+    mGender: "这件衣服是给谁的?",
+    genderF: "女士",
+    genderM: "男士",
+    continueBtn: "继续",
+    chooseLang: "选择你的语言",
+    atelierSpeak: "你的工作室会和你对话",
+    mIntroLang: "你好!我是小云 ☁ 选择语言吧",
+    sizeTitle: "选择你的尺码",
+    mSize: "用软尺量腰围。每个尺码显示胸·腰·臀(厘米)。犹豫时选大一号。",
+    cutLine: "✂ 沿黄线裁剪",
+    sewLine: "— 缝线(留 {0} 厘米缝份)",
+    onFold: "对折裁剪",
+    doubleFabric: "×2 · 双层布料"
+  },
+  ja: {
+    menuTitle: "今日は何を作る?",
+    tellStyle: "● スタイルを教えて",
+    sayChange: "● 変更を言って",
+    typeHint: "入力してEnterを押してね",
+    modify: "修正",
+    toFabric: "布へ ▸",
+    backMenu: "‹ メニュー",
+    listening: "● 聞いています…",
+    working: "型紙を作成中…",
+    mIntroMenu: "こんにちは!クモちゃんです ☁ 指でスワイプして服を選んでね。",
+    mStyle: "いい選択!ボタンを押して、スタイル・丈・サイズを教えてね。",
+    mCards: "「修正」で調整、「布へ」で裁断できるよ。",
+    mModify: "この型紙のどこを変える?",
+    mError: "あれ、失敗しちゃった。もう一度試してね。",
+    mGender: "誰のための服?",
+    genderF: "女性",
+    genderM: "男性",
+    continueBtn: "つづける",
+    chooseLang: "言語を選んでね",
+    atelierSpeak: "アトリエがあなたと話すよ",
+    mIntroLang: "こんにちは!クモちゃんだよ ☁",
+    sizeTitle: "サイズを選んでね",
+    mSize: "メジャーでウエストを測ってね。各サイズは胸・腰・ヒップ(cm)。迷ったら大きい方を選んでね。",
+    cutLine: "✂ 黄色い線で裁断",
+    sewLine: "— 縫い線(縫い代 {0} cm)",
+    onFold: "わさ裁ち",
+    doubleFabric: "×2 · 二枚重ね"
+  },
+  ar: {
+    menuTitle: "ماذا تريد أن تصنع اليوم؟",
+    tellStyle: "● صف الستايل",
+    sayChange: "● قل التعديل",
+    typeHint: "اكتب طلبك واضغط Enter",
+    modify: "تعديل",
+    toFabric: "إلى القماش ▸",
+    backMenu: "‹ القائمة",
+    listening: "● أستمع…",
+    working: "أرسم الباترونات…",
+    mIntroMenu: "مرحباً! أنا غيمة ☁ مرّر بأصابعك واختر قطعة الملابس.",
+    mStyle: "اختيار رائع! المس الزر وأخبرني كيف تريدها: الستايل والطول والمقاسات…",
+    mCards: "المس \"تعديل\" للضبط أو \"إلى القماش\" للقص.",
+    mModify: "أخبرني ماذا أغيّر في هذا الباترون.",
+    mError: "عذراً، حدث خطأ. حاول مرة أخرى.",
+    mGender: "لمن هذه الملابس؟",
+    genderF: "امرأة",
+    genderM: "رجل",
+    continueBtn: "متابعة",
+    chooseLang: "اختر لغتك",
+    atelierSpeak: "سيتحدث معك المشغل",
+    mIntroLang: "مرحباً! أنا غيمة ☁ اختر لغتك",
+    sizeTitle: "اختر مقاسك",
+    mSize: "قس محيط خصرك بشريط القياس. كل مقاس يعرض الصدر·الخصر·الورك بالسم. إذا ترددت اختر الأكبر.",
+    cutLine: "✂ قُص على الخط الأصفر",
+    sewLine: "— خط الخياطة (هامش {0} سم)",
+    onFold: "على الثنية",
+    doubleFabric: "×2 · قماش مزدوج"
+  },
+  fa: {
+    menuTitle: "امروز چی می‌خوای بسازی؟",
+    tellStyle: "● استایل رو توصیف کن",
+    sayChange: "● تغییر رو بگو",
+    typeHint: "درخواستت رو بنویس و Enter بزن",
+    modify: "ویرایش",
+    toFabric: "روی پارچه ▸",
+    backMenu: "‹ منو",
+    listening: "● گوش می‌دم…",
+    working: "دارم الگوها رو می‌کشم…",
+    mIntroMenu: "سلام! من ابر هستم ☁ با انگشت‌هات ورق بزن و لباس رو انتخاب کن.",
+    mStyle: "انتخاب عالی! دکمه رو بزن و بگو چطوری می‌خوایش: استایل، بلندی، اندازه‌ها…",
+    mCards: "«ویرایش» برای تنظیم، یا «روی پارچه» برای برش.",
+    mModify: "بگو توی این الگو چی رو عوض کنم.",
+    mError: "اوه، یه مشکلی پیش اومد. دوباره امتحان کن.",
+    mGender: "این لباس برای کیه؟",
+    genderF: "زن",
+    genderM: "مرد",
+    continueBtn: "ادامه",
+    chooseLang: "زبانت رو انتخاب کن",
+    atelierSpeak: "آتلیه‌ات باهات حرف می‌زنه",
+    mIntroLang: "سلام! من ابر هستم ☁",
+    sizeTitle: "سایزت رو انتخاب کن",
+    mSize: "دور کمرت رو با متر اندازه بگیر. هر سایز سینه·کمر·باسن رو نشون می‌ده. اگه شک داری بزرگ‌تر رو انتخاب کن.",
+    cutLine: "✂ از روی خط زرد ببُر",
+    sewLine: "— خط دوخت (حاشیه {0} سانتی‌متر)",
+    onFold: "روی تای پارچه",
+    doubleFabric: "×2 · پارچه دولا"
+  }
+};
+
+// Pasos del flujo (botonera de progreso)
+const STEPS: { [lang: string]: string[] } = {
+  es: ["IDIOMA", "PRENDA", "TALLE", "ESTILO", "MOLDES", "CORTE"],
+  en: ["LANGUAGE", "GARMENT", "SIZE", "STYLE", "PATTERNS", "CUT"],
+  pt: ["IDIOMA", "PEÇA", "TAMANHO", "ESTILO", "MOLDES", "CORTE"],
+  fr: ["LANGUE", "VÊTEMENT", "TAILLE", "STYLE", "PATRONS", "COUPE"],
+  it: ["LINGUA", "CAPO", "TAGLIA", "STILE", "CARTAMODELLI", "TAGLIO"],
+  de: ["SPRACHE", "KLEIDUNG", "GRÖSSE", "STIL", "SCHNITTE", "ZUSCHNITT"],
+  ru: ["ЯЗЫК", "ОДЕЖДА", "РАЗМЕР", "СТИЛЬ", "ВЫКРОЙКИ", "РАСКРОЙ"],
+  zh: ["语言", "服装", "尺码", "款式", "纸样", "裁剪"],
+  ja: ["言語", "服", "サイズ", "スタイル", "型紙", "裁断"],
+  ar: ["اللغة", "الملابس", "المقاس", "الستايل", "الباترونات", "القص"],
+  fa: ["زبان", "لباس", "سایز", "استایل", "الگوها", "برش"]
+};
+
+export function stepNames(): string[] {
+  return STEPS[currentLang] !== undefined ? STEPS[currentLang] : STEPS["es"];
+}
+
+let currentLang: string = "es";
+
+export function setLang(code: string) {
+  if (STRINGS[code] !== undefined) {
+    currentLang = code;
+  }
+}
+
+export function getLang(): string {
+  return currentLang;
+}
+
+export function getLangDef(): LangDef {
+  for (const l of LANGS) {
+    if (l.code === currentLang) {
+      return l;
+    }
+  }
+  return LANGS[0];
+}
+
+export function t(key: string): string {
+  const table = STRINGS[currentLang];
+  if (table !== undefined && table[key] !== undefined) {
+    return table[key];
+  }
+  const fallback = STRINGS["es"][key];
+  return fallback !== undefined ? fallback : key;
+}
+
+export function tf(key: string, arg: string): string {
+  return t(key).replace("{0}", arg);
+}
+
+export function garmentName(index: number): string {
+  const names = GARMENTS[currentLang] !== undefined ? GARMENTS[currentLang] : GARMENTS["es"];
+  return names[index];
+}

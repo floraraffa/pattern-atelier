@@ -1,0 +1,103 @@
+- !<AssetImportMetadata/9c0b0d43-ecfe-458a-a30b-7d8e1f40b312>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 818e0df7-a8fe-4e55-87be-212bb5a7d381
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 818e0df7-a8fe-4e55-87be-212bb5a7d381
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> a265d2e1-a16e-4d9d-9036-d0a086963d7a
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/a265d2e1-a16e-4d9d-9036-d0a086963d7a>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 15509bf0-68c5-43fe-9cf9-0aef2ff30004
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    arrowBackTexture: false
+    arrowMaterial: false
+    arrowNextTexture: false
+    backgroundTexture: false
+    confirmMaterial: false
+    confirmTextSize: false
+    confirmTexture: false
+    confirmWidth: false
+    confirmY: false
+    headerY: false
+    itemHeight: false
+    itemTextNavy: false
+    itemWidth: false
+    plateMaterial: false
+    progressTexture: false
+    selectedMaterial: false
+    showCenteredTitle: false
+    spacing: false
+    stickerMaterial: false
+    stripOffsetY: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - plateMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      selectedMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      confirmMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      itemWidth: !<float> 24.000000
+      itemHeight: !<float> 13.000000
+      spacing: !<float> 28.000000
+      stickerMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      backgroundTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      confirmTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      progressTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      arrowMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      arrowBackTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      arrowNextTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      stripOffsetY: !<float> 0.000000
+      headerY: 13.500000
+      confirmY: -15.500000
+      confirmWidth: !<float> 19.000000
+      confirmTextSize: 1.500000
+      itemTextNavy: false
+      showCenteredTitle: false
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material plateMaterial
+    - // @input Asset.Material selectedMaterial
+    - // @input Asset.Material confirmMaterial
+    - // @input float itemWidth = 24
+    - // @input float itemHeight = 13
+    - // @input float spacing = 28
+    - // @input Asset.Material stickerMaterial
+    - // @input Asset.Texture backgroundTexture
+    - // @input Asset.Texture confirmTexture
+    - // @input Asset.Texture progressTexture
+    - // @input Asset.Material arrowMaterial
+    - // @input Asset.Texture arrowBackTexture
+    - // @input Asset.Texture arrowNextTexture
+    - // @input float stripOffsetY
+    - // @input float headerY = 13.5
+    - // @input float confirmY = -15.5
+    - // @input float confirmWidth = 19
+    - // @input float confirmTextSize = 1.5
+    - // @input bool itemTextNavy
+    - // @input bool showCenteredTitle

@@ -1,0 +1,64 @@
+- !<AssetImportMetadata/cf3fe629-a32c-46ed-ac6c-4f53acddfe1f>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> fe50f661-2203-48b1-bb12-6012923955d6
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> fe50f661-2203-48b1-bb12-6012923955d6
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 04e280d4-a2ec-4eb1-8a54-113aba82503a
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/04e280d4-a2ec-4eb1-8a54-113aba82503a>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: ad141ec6-66dd-4ec9-8872-a339a04fae68
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    drawTestSkirt: false
+    lineMaterial: false
+    lineWidth: false
+    pieceGap: false
+    seamAllowance: false
+    seamMaterial: false
+    showLegend: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - lineMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      seamMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      lineWidth: 0.500000
+      seamAllowance: !<float> 1.000000
+      pieceGap: !<float> 8.000000
+      drawTestSkirt: true
+      showLegend: true
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material lineMaterial
+    - // @input Asset.Material seamMaterial
+    - // @input float lineWidth = 0.5
+    - // @input float seamAllowance = 1
+    - // @input float pieceGap = 8
+    - // @input bool drawTestSkirt = true
+    - // @input bool showLegend = true

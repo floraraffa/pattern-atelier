@@ -1,0 +1,96 @@
+- !<AssetImportMetadata/e096562f-83d7-4a10-b4f5-e36fbf325bee>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 9b19c945-c760-4d8f-a812-83a42f1c21ce
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 9b19c945-c760-4d8f-a812-83a42f1c21ce
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> b624ddd7-892c-4496-a684-f2c480324f87
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/b624ddd7-892c-4496-a684-f2c480324f87>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 97a4f454-60f0-448f-aa38-4a279d484f26
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    ai: false
+    cards: false
+    demoSeed: false
+    garmentCardTextures: false
+    garmentCarousel: false
+    genderIconTextures: false
+    langCardTextures: false
+    langCarousel: false
+    logoObject: false
+    mascot: false
+    progress: false
+    promptBtn: false
+    renderer: false
+    sizeCardTexturesF: false
+    sizeCardTexturesM: false
+    sizeCarousel: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - langCarousel: !<MappingBased.AssignableType_1> 00000000-0000-0000-0000-000000000000
+      garmentCarousel: !<MappingBased.AssignableType_2> 00000000-0000-0000-0000-000000000000
+      sizeCarousel: !<MappingBased.AssignableType_3> 00000000-0000-0000-0000-000000000000
+      progress: !<MappingBased.AssignableType_4> 00000000-0000-0000-0000-000000000000
+      cards: !<MappingBased.AssignableType_5> 00000000-0000-0000-0000-000000000000
+      promptBtn: !<MappingBased.AssignableType_6> 00000000-0000-0000-0000-000000000000
+      mascot: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
+      ai: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
+      renderer: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
+      demoSeed: false
+      logoObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      langCardTextures: !<reference.Texture[]>
+        []
+      garmentCardTextures: !<reference.Texture[]>
+        []
+      genderIconTextures: !<reference.Texture[]>
+        []
+      sizeCardTexturesF: !<reference.Texture[]>
+        []
+      sizeCardTexturesM: !<reference.Texture[]>
+        []
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input AssignableType_1 langCarousel
+    - // @input AssignableType_2 garmentCarousel
+    - // @input AssignableType_3 sizeCarousel
+    - // @input AssignableType_4 progress
+    - // @input AssignableType_5 cards
+    - // @input AssignableType_6 promptBtn
+    - // @input AssignableType_7 mascot
+    - // @input AssignableType_8 ai
+    - // @input AssignableType_9 renderer
+    - // @input bool demoSeed
+    - // @input SceneObject logoObject
+    - "// @input Asset.Texture[] langCardTextures"
+    - "// @input Asset.Texture[] garmentCardTextures"
+    - "// @input Asset.Texture[] genderIconTextures"
+    - "// @input Asset.Texture[] sizeCardTexturesF"
+    - "// @input Asset.Texture[] sizeCardTexturesM"

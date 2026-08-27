@@ -1,0 +1,61 @@
+- !<AssetImportMetadata/bef3a050-cd16-4b31-ba98-ecf6c6a1586d>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> dcc6d7ee-aa94-4107-9001-57add6aaf83d
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> dcc6d7ee-aa94-4107-9001-57add6aaf83d
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> f8f85bdc-943a-447b-bb6f-b32e8ab93919
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/f8f85bdc-943a-447b-bb6f-b32e8ab93919>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 328980c8-2c98-4626-8ad2-4484894c822f
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    baseMaterial: false
+    offsetX: false
+    offsetY: false
+    rotationDeg: false
+    texture: false
+    widthCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - texture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      baseMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      widthCm: !<float> 20.000000
+      offsetX: !<float> 0.000000
+      offsetY: !<float> 0.000000
+      rotationDeg: !<float> 0.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Texture texture
+    - // @input Asset.Material baseMaterial
+    - // @input float widthCm = 20
+    - // @input float offsetX
+    - // @input float offsetY
+    - // @input float rotationDeg

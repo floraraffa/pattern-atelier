@@ -1,0 +1,61 @@
+- !<AssetImportMetadata/d9120973-9d04-4baf-8e97-910737495164>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 814d7419-022c-4d2c-9499-313724a10f5a
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 814d7419-022c-4d2c-9499-313724a10f5a
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 734338d9-5b32-4e67-aee0-73d30ebdd4e7
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/734338d9-5b32-4e67-aee0-73d30ebdd4e7>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: e0286d25-2733-419c-9205-0690879405ce
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    buttonActiveTexture: false
+    buttonSize: false
+    buttonTexture: false
+    dashMaterial: false
+    stepSpacing: false
+    stickerMaterial: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - stickerMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      buttonTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      buttonActiveTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      dashMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      stepSpacing: 9.500000
+      buttonSize: 4.200000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material stickerMaterial
+    - // @input Asset.Texture buttonTexture
+    - // @input Asset.Texture buttonActiveTexture
+    - // @input Asset.Material dashMaterial
+    - // @input float stepSpacing = 9.5
+    - // @input float buttonSize = 4.2

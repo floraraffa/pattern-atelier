@@ -1,0 +1,73 @@
+- !<AssetImportMetadata/cb534dab-6cb6-43db-b2b8-e36352bf1e1d>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 6e80615c-ad0c-4100-bbba-bfbf68b54f76
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 6e80615c-ad0c-4100-bbba-bfbf68b54f76
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 381b03e2-0134-4f6c-a1b8-ec0025a4e67c
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/381b03e2-0134-4f6c-a1b8-ec0025a4e67c>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: db2d9d3a-1b23-403b-820b-5e11b905cd6a
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    actionMaterial: false
+    arrowBackTexture: false
+    arrowNextTexture: false
+    backMaterial: false
+    cardMaterial: false
+    cardSelectedMaterial: false
+    frameTexture: false
+    menuTexture: false
+    stickerMaterial: false
+    thumbMaterial: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - cardMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      cardSelectedMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      thumbMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      actionMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      backMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      frameTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      stickerMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      arrowBackTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      arrowNextTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      menuTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material cardMaterial
+    - // @input Asset.Material cardSelectedMaterial
+    - // @input Asset.Material thumbMaterial
+    - // @input Asset.Material actionMaterial
+    - // @input Asset.Material backMaterial
+    - // @input Asset.Texture frameTexture
+    - // @input Asset.Material stickerMaterial
+    - // @input Asset.Texture arrowBackTexture
+    - // @input Asset.Texture arrowNextTexture
+    - // @input Asset.Texture menuTexture
