@@ -2,7 +2,7 @@
 // el texto al callback onPrompt; en el editor (sin micrófono) abre el teclado
 // para escribir el pedido tal cual. El flujo (AppFlow) lo configura por paso.
 
-import { makePlate, makeLabel, makeTappable, makeSticker } from "./UiLite";
+import { makePlate, makeLabel, makeTappable, makeSticker, resetLocal } from "./UiLite";
 import { buildQuadMesh } from "./LineMesh";
 import { t } from "./I18n";
 
@@ -51,10 +51,16 @@ export class PromptButton extends BaseScriptComponent {
       // Barra de dictado (nota · campo · mic · enviar) — todo el ancho es tappeable
       const bar = makeSticker(this.sceneObject, "promptBar", this.stickerMaterial, this.barTexture, this.barWidth);
       const barH = this.barWidth * this.barTexture.getHeight() / this.barTexture.getWidth();
-      // El texto va dentro del campo punteado del centro
-      this.buttonText = makeLabel(bar, "", 1.3, new vec3(-1.5, 0, 0.3), new vec4(0.13, 0.17, 0.32, 1));
+      // El texto va dentro del campo punteado del centro (chico, para que entre el pedido)
+      this.buttonText = makeLabel(bar, "", 0.95, new vec3(-this.barWidth * 0.06, 0, 0.3), new vec4(0.13, 0.17, 0.32, 1));
       this.statusText = this.buttonText;
       makeTappable(this.sceneObject, this.barWidth, barH + 1, () => this.onTap());
+      // Botón de MIC (el círculo azul del arte): dictado por voz
+      const mic = global.scene.createSceneObject("micBtn");
+      mic.setParent(this.sceneObject);
+      resetLocal(mic);
+      mic.getTransform().setLocalPosition(new vec3(this.barWidth * 0.235, 0, 0.8));
+      makeTappable(mic, barH * 0.95, barH * 0.95, () => this.onMicTap());
       if (this.boardTexture !== undefined && !isNull(this.boardTexture)) {
         const board = makeSticker(this.sceneObject, "styleBoard", this.stickerMaterial, this.boardTexture, this.boardWidth);
         board.getTransform().setLocalPosition(new vec3(0, this.boardY, -1));
@@ -88,7 +94,7 @@ export class PromptButton extends BaseScriptComponent {
   }
 
   setStatus(message: string) {
-    const short = message.length > 46 ? message.substring(0, 45) + "…" : message;
+    const short = message.length > 64 ? message.substring(0, 63) + "…" : message;
     this.pendingStatus = short;
     if (this.statusText !== null) {
       this.statusText.text = short;
@@ -98,6 +104,23 @@ export class PromptButton extends BaseScriptComponent {
   private emit(text: string) {
     if (this.onPrompt !== null && text !== "") {
       this.onPrompt(text);
+    }
+  }
+
+  // El círculo del micrófono: en Specs arranca/corta el dictado por voz;
+  // en el editor (sin micrófono) avisa y abre el teclado.
+  private onMicTap() {
+    if (global.deviceInfoSystem.isEditor()) {
+      this.setStatus(t("micHint"));
+      if (!this.typing) {
+        this.openKeyboard();
+      }
+      return;
+    }
+    if (this.listening) {
+      this.stopListening();
+    } else {
+      this.startListening();
     }
   }
 
