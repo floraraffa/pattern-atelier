@@ -414,6 +414,30 @@
     []
   Components:
     - !<own> e1aba839-40ff-44cc-ab47-088d5b8cc423
+- !<ScriptComponent/0c72a99b-9195-42e3-a2ad-0305fdd2c427>
+  PrefabRemaps:
+    []
+  Name: LazyFollow
+  Enabled: true
+  ScriptAsset: !<reference> eb2a050d-dd14-407b-8b93-1cb06f94a2f7
+  ScriptInputsDefault:
+    followDistanceCm: true
+    angleThresholdDeg: true
+    followSpeed: true
+    heightOffsetCm: true
+    followEnabled: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      followDistanceCm: !<float> 110.000000
+      angleThresholdDeg: !<float> 28.000000
+      followSpeed: 2.600000
+      heightOffsetCm: !<float> 0.000000
+      followEnabled: true
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/0cffb60e-73f6-43c5-bb4f-286d39e0f1f6>
   PrefabRemaps:
     []
@@ -3463,6 +3487,7 @@
     - !<own> 59f1f6b5-cc91-4e1c-91d6-3e6c4485baff
   Components:
     - !<own> 996c0d6e-8ae7-45d5-a680-185eb7872033
+    - !<own> 0c72a99b-9195-42e3-a2ad-0305fdd2c427
 - !<SceneObject/fcc185fc-4e88-4e9e-9c71-40bd83b1b0ed>
   PrefabRemaps:
     []
