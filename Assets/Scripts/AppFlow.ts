@@ -69,6 +69,10 @@ export class AppFlow extends BaseScriptComponent {
   @input
   @allowUndefined
   genderIconTextures: Texture[];
+  // Contenedores del nombre por género [rosa mujer, celeste hombre]
+  @input
+  @allowUndefined
+  genderLabelTextures: Texture[];
   @input
   @allowUndefined
   sizeCardTexturesF: Texture[];
@@ -240,10 +244,12 @@ export class AppFlow extends BaseScriptComponent {
     this.sizeCarousel.setHeader(t("mGender"), "");
     this.sizeCarousel.setConfirmLabel(t("continueBtn"));
     const gtex = this.genderIconTextures;
+    const gpill = this.genderLabelTextures;
     const items: CarouselItem[] = [t("genderF"), t("genderM")].map((label, i) => ({
       title: label,
       subtitle: "",
-      texture: gtex !== undefined && !isNull(gtex) && i < gtex.length ? gtex[i] : undefined
+      texture: gtex !== undefined && !isNull(gtex) && i < gtex.length ? gtex[i] : undefined,
+      labelTexture: gpill !== undefined && !isNull(gpill) && i < gpill.length ? gpill[i] : undefined
     }));
     this.sizeCarousel.setItems(items, 0, t("mGender"));
     this.mascot.speak(t("mGender"));

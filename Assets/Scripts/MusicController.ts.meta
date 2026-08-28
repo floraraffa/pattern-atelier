@@ -1,0 +1,70 @@
+- !<AssetImportMetadata/14a845e6-394a-4213-af57-8c5ee151e396>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 7bc57563-cabf-4c72-884e-9f69df5d61e3
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 7bc57563-cabf-4c72-884e-9f69df5d61e3
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> b9219a58-19ef-4186-80a3-3acdf52421fc
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/b9219a58-19ef-4186-80a3-3acdf52421fc>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 3e9187d5-61c7-443a-8490-9f4d4ae73160
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    audioTrack: false
+    buttonSize: false
+    offTexture: false
+    offsetX: false
+    offsetY: false
+    onTexture: false
+    startOn: false
+    stickerMaterial: false
+    volume: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - audioTrack: !<reference.AudioTrackAsset> 00000000-0000-0000-0000-000000000000
+      stickerMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      onTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      offTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      volume: 0.250000
+      buttonSize: 4.200000
+      startOn: true
+      offsetX: !<float> 0.000000
+      offsetY: !<float> 0.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.AudioTrackAsset audioTrack
+    - // @input Asset.Material stickerMaterial
+    - // @input Asset.Texture onTexture
+    - // @input Asset.Texture offTexture
+    - // @input float volume = 0.25
+    - // @input float buttonSize = 4.2
+    - // @input bool startOn = true
+    - // @input float offsetX
+    - // @input float offsetY

@@ -964,6 +964,9 @@
       genderIconTextures: !<reference.Texture[]>
         - !<reference> ec95a8a0-d4ba-47cc-a032-567d7944b5bd
         - !<reference> b511a82e-4261-4222-a3f9-f7cb628d90d9
+      genderLabelTextures: !<reference.Texture[]>
+        - !<reference> 4e8751c9-70f5-4c95-b9c0-d5d4ac746ec5
+        - !<reference> bcaceb61-763d-4e15-aea3-1305532db222
       sizeCardTexturesF: !<reference.Texture[]>
         - !<reference> 3741b517-0720-4b24-9201-5aa3c967858c
         - !<reference> c2efc7ca-5c9d-4b8c-8c44-395d1f5656bc
@@ -1197,6 +1200,21 @@
     - !<own> bf2095b6-c6f8-48c8-b840-e0a6cec0dc99
   Components:
     []
+- !<SceneObject/59f1f6b5-cc91-4e1c-91d6-3e6c4485baff>
+  PrefabRemaps:
+    []
+  Name: MusicRoot
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -28.000000, y: 26.000000, z: 2.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> c4af89fc-665d-444e-a83c-5d958b99d976
 - !<ScriptComponent/5f153ad7-2baa-4fd9-a298-0dcfad86da3b>
   PrefabRemaps:
     []
@@ -1691,6 +1709,9 @@
     confirmWidth: true
     confirmTextSize: true
     showCenteredTitle: true
+    headerX: true
+    centeredLabelWidth: true
+    centeredLabelTextSize: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -1715,6 +1736,11 @@
       confirmTextSize: 1.500000
       itemTextNavy: true
       showCenteredTitle: false
+      headerX: !<float> 4.000000
+      centeredLabelTexture: !<reference.Texture> 7fba85d1-1077-489d-adc5-e600d40698e0
+      centeredLabelWidth: 12.500000
+      centeredLabelTextSize: 1.100000
+      centeredLabelY: 2.200000
   ScriptTypes:
     "":
       {}
@@ -2292,6 +2318,11 @@
     confirmTextSize: true
     itemTextNavy: true
     showCenteredTitle: true
+    headerX: true
+    centeredLabelTexture: true
+    centeredLabelWidth: true
+    centeredLabelTextSize: true
+    centeredLabelY: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -2316,6 +2347,11 @@
       confirmTextSize: 1.500000
       itemTextNavy: false
       showCenteredTitle: false
+      headerX: !<float> 4.000000
+      centeredLabelTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      centeredLabelWidth: 12.500000
+      centeredLabelTextSize: 1.100000
+      centeredLabelY: !<float> 0.000000
   ScriptTypes:
     "":
       {}
@@ -2555,6 +2591,34 @@
     []
   Components:
     []
+- !<ScriptComponent/c4af89fc-665d-444e-a83c-5d958b99d976>
+  PrefabRemaps:
+    []
+  Name: MusicController
+  Enabled: true
+  ScriptAsset: !<reference> 7bc57563-cabf-4c72-884e-9f69df5d61e3
+  ScriptInputsDefault:
+    volume: true
+    buttonSize: true
+    startOn: true
+    offsetX: true
+    offsetY: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      audioTrack: !<reference.AudioTrackAsset> 9e3fe2a1-bdeb-43d6-9ccb-4c1ff35a936a
+      stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
+      onTexture: !<reference.Texture> ea045047-1143-4c59-bf48-895d371359b0
+      offTexture: !<reference.Texture> af79c4f8-9f81-4858-a657-dc11fadd23fe
+      volume: 0.250000
+      buttonSize: 4.200000
+      startOn: true
+      offsetX: !<float> 0.000000
+      offsetY: !<float> 0.000000
+  ScriptTypes:
+    "":
+      {}
 - !<ScriptComponent/c8e031d3-a8a1-468a-a419-427f8556de4c>
   PrefabRemaps:
     []
@@ -2938,6 +3002,9 @@
     progressTexture: true
     confirmWidth: true
     confirmTextSize: true
+    headerX: true
+    centeredLabelWidth: true
+    centeredLabelTextSize: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -2962,6 +3029,11 @@
       confirmTextSize: 1.500000
       itemTextNavy: true
       showCenteredTitle: true
+      headerX: !<float> 4.000000
+      centeredLabelTexture: !<reference.Texture> 7fba85d1-1077-489d-adc5-e600d40698e0
+      centeredLabelWidth: 12.500000
+      centeredLabelTextSize: 1.100000
+      centeredLabelY: 2.200000
   ScriptTypes:
     "":
       {}
@@ -3371,6 +3443,7 @@
     - !<own> a4cff797-7761-4825-9cc0-3ffe56a67c5b
     - !<own> 63d288fa-a819-4ab8-a25b-b24949d26fdf
     - !<own> e6bd1787-86a1-4f84-82be-f43e39c11584
+    - !<own> 59f1f6b5-cc91-4e1c-91d6-3e6c4485baff
   Components:
     - !<own> 996c0d6e-8ae7-45d5-a680-185eb7872033
 - !<SceneObject/fcc185fc-4e88-4e9e-9c71-40bd83b1b0ed>

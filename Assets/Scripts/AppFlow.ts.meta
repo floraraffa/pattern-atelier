@@ -34,6 +34,7 @@
     garmentCardTextures: false
     garmentCarousel: false
     genderIconTextures: false
+    genderLabelTextures: false
     langCardTextures: false
     langCarousel: false
     logoObject: false
@@ -70,6 +71,8 @@
         []
       genderIconTextures: !<reference.Texture[]>
         []
+      genderLabelTextures: !<reference.Texture[]>
+        []
       sizeCardTexturesF: !<reference.Texture[]>
         []
       sizeCardTexturesM: !<reference.Texture[]>
@@ -92,5 +95,6 @@
     - "// @input Asset.Texture[] langCardTextures"
     - "// @input Asset.Texture[] garmentCardTextures"
     - "// @input Asset.Texture[] genderIconTextures"
+    - "// @input Asset.Texture[] genderLabelTextures"
     - "// @input Asset.Texture[] sizeCardTexturesF"
     - "// @input Asset.Texture[] sizeCardTexturesM"

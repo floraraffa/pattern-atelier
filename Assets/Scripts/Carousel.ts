@@ -11,6 +11,7 @@ export interface CarouselItem {
   title: string;
   subtitle: string;
   texture?: Texture; // si viene, la card es una imagen (sticker) en vez de placa
+  labelTexture?: Texture; // contenedor del nombre propio de este item (ej: rosa/celeste)
 }
 
 @component
@@ -50,6 +51,15 @@ export class Carousel extends BaseScriptComponent {
   @input confirmTextSize: number = 1.5; // tamaño del texto del botón (cm)
   @input itemTextNavy: boolean = false; // texto de items azul marino (para placas claras)
   @input showCenteredTitle: boolean = false; // nombre del item centrado bajo el carrusel
+  // ✏️ Corrimiento horizontal del título/subtítulo (despegarlo del logo)
+  @input headerX: number = 4;
+  // Contenedor cosido para el nombre del item central (arte de Flor)
+  @input
+  @allowUndefined
+  centeredLabelTexture: Texture;
+  @input centeredLabelWidth: number = 12.5; // ancho del contenedor (cm)
+  @input centeredLabelTextSize: number = 1.1; // tamaño del nombre dentro del contenedor
+  @input centeredLabelY: number = 0; // ajuste fino vertical del contenedor
 
   private headerTitle: string = "";
   private headerSubtitle: string = "";
@@ -70,6 +80,7 @@ export class Carousel extends BaseScriptComponent {
   private titleText: Text | null = null;
   private centeredTitleText: Text | null = null;
   private centeredTitleBold: Text | null = null;
+  private centeredPillVisual: RenderMeshVisual | null = null;
 
   private offset: number = 0; // desplazamiento actual en cm
   private targetOffset: number = 0;
@@ -170,9 +181,10 @@ export class Carousel extends BaseScriptComponent {
       const NAVY = new vec4(0.13, 0.17, 0.32, 1);
       const GRAYW = new vec4(0.42, 0.38, 0.34, 1);
       const hy = this.headerY;
-      this.headerTitleText = makeLabel(this.chrome, this.headerTitle, 2.5, new vec3(0, hy, 0), NAVY);
+      const hx = this.headerX;
+      this.headerTitleText = makeLabel(this.chrome, this.headerTitle, 2.5, new vec3(hx, hy, 0), NAVY);
       if (this.headerSubtitle !== "") {
-        this.headerSubText = makeLabel(this.chrome, this.headerSubtitle, 1.3, new vec3(0, hy - 3.1, 0), GRAYW);
+        this.headerSubText = makeLabel(this.chrome, this.headerSubtitle, 1.3, new vec3(hx, hy - 3.1, 0), GRAYW);
       }
     }
 
@@ -254,14 +266,38 @@ export class Carousel extends BaseScriptComponent {
 
     if (this.showCenteredTitle) {
       const NAVY2 = new vec4(0.13, 0.17, 0.32, 1);
-      const cy = this.stripOffsetY - this.itemHeight / 2 - 2.4;
-      const txt = this.items.length > 0 ? this.items[this.centered].title.toUpperCase() : "";
-      // "Negrita": doble trazo con leve offset
-      this.centeredTitleText = makeLabel(this.chrome, txt, 1.3, new vec3(0, cy, 0.5), NAVY2);
-      this.centeredTitleBold = makeLabel(this.chrome, txt, 1.3, new vec3(0.06, cy, 0.49), NAVY2);
+      const item = this.items.length > 0 ? this.items[this.centered] : null;
+      const txt = item !== null ? item.title.toUpperCase() : "";
+      // Contenedor cosido de Flor: el que trae el item (rosa/celeste) o el general
+      const itemPill = item !== null && item.labelTexture !== undefined && !isNull(item.labelTexture)
+        ? item.labelTexture
+        : undefined;
+      const pillTex = itemPill !== undefined ? itemPill : this.centeredLabelTexture;
+      const usePill = canSticker && pillTex !== undefined && !isNull(pillTex);
+      // El nombre va en la parte inferior: al borde de abajo de la card central
+      let cy = this.stripOffsetY - this.itemHeight / 2 - 2.4;
+      if (this.textured && item !== null && item.texture !== undefined && !isNull(item.texture)) {
+        const cardH = this.itemWidth * (item.texture.getHeight() / item.texture.getWidth()) * 1.15;
+        cy = this.stripOffsetY - cardH / 2;
+      }
+      cy += this.centeredLabelY;
+      if (usePill) {
+        const pill = makeSticker(this.chrome, "namePill", this.stickerMaterial, pillTex, this.centeredLabelWidth);
+        pill.getTransform().setLocalPosition(new vec3(0, cy, 2));
+        this.centeredPillVisual = pill.getComponent("Component.RenderMeshVisual") as RenderMeshVisual;
+        // "Negrita": doble trazo con leve offset, corrido apenas por el botoncito azul
+        const ts = this.centeredLabelTextSize;
+        this.centeredTitleText = makeLabel(pill, txt, ts, new vec3(0.35, 0.05, 0.3), NAVY2);
+        this.centeredTitleBold = makeLabel(pill, txt, ts, new vec3(0.43, 0.05, 0.29), NAVY2);
+      } else {
+        this.centeredPillVisual = null;
+        this.centeredTitleText = makeLabel(this.chrome, txt, 1.3, new vec3(0, cy, 0.5), NAVY2);
+        this.centeredTitleBold = makeLabel(this.chrome, txt, 1.3, new vec3(0.06, cy, 0.49), NAVY2);
+      }
     } else {
       this.centeredTitleText = null;
       this.centeredTitleBold = null;
+      this.centeredPillVisual = null;
     }
 
     this.layout();
@@ -271,12 +307,22 @@ export class Carousel extends BaseScriptComponent {
     if (this.centered >= this.items.length) {
       return;
     }
-    const txt = this.items[this.centered].title.toUpperCase();
+    const item = this.items[this.centered];
+    const txt = item.title.toUpperCase();
     if (this.centeredTitleText !== null && !isNull(this.centeredTitleText)) {
       this.centeredTitleText.text = txt;
     }
     if (this.centeredTitleBold !== null && !isNull(this.centeredTitleBold)) {
       this.centeredTitleBold.text = txt;
+    }
+    // Si el item trae su propio contenedor (rosa/celeste), se cambia al deslizar
+    if (this.centeredPillVisual !== null && !isNull(this.centeredPillVisual)) {
+      const tex = item.labelTexture !== undefined && !isNull(item.labelTexture)
+        ? item.labelTexture
+        : this.centeredLabelTexture;
+      if (tex !== undefined && !isNull(tex)) {
+        this.centeredPillVisual.mainMaterial.mainPass.baseTex = tex;
+      }
     }
   }
 

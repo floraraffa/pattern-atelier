@@ -32,11 +32,16 @@
     arrowMaterial: false
     arrowNextTexture: false
     backgroundTexture: false
+    centeredLabelTextSize: false
+    centeredLabelTexture: false
+    centeredLabelWidth: false
+    centeredLabelY: false
     confirmMaterial: false
     confirmTextSize: false
     confirmTexture: false
     confirmWidth: false
     confirmY: false
+    headerX: false
     headerY: false
     itemHeight: false
     itemTextNavy: false
@@ -77,6 +82,11 @@
       confirmTextSize: 1.500000
       itemTextNavy: false
       showCenteredTitle: false
+      headerX: !<float> 4.000000
+      centeredLabelTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      centeredLabelWidth: 12.500000
+      centeredLabelTextSize: 1.100000
+      centeredLabelY: !<float> 0.000000
   ScriptTypes:
     -
       {}
@@ -101,3 +111,8 @@
     - // @input float confirmTextSize = 1.5
     - // @input bool itemTextNavy
     - // @input bool showCenteredTitle
+    - // @input float headerX = 4
+    - // @input Asset.Texture centeredLabelTexture
+    - // @input float centeredLabelWidth = 12.5
+    - // @input float centeredLabelTextSize = 1.1
+    - // @input float centeredLabelY
