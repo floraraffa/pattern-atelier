@@ -125,16 +125,17 @@ export class ProjectCards extends BaseScriptComponent {
     mkArrow("›", this.arrowNextTexture, CARD_W / 2 + 17, 1);
 
     // Crear otra prenda: vuelve al selector de prendas (misma base que CONTINUAR)
+    // Contenedor grande para que el texto respire en todos los idiomas
     let back: SceneObject;
     if (canSticker && this.menuTexture !== undefined && !isNull(this.menuTexture)) {
-      back = makeSticker(this.root!, "backBtn", this.stickerMaterial, this.menuTexture, 13);
-      makeLabel(back, t("newGarment"), 1.15, new vec3(0.25, 0.1, 0.3), new vec4(0.13, 0.17, 0.32, 1));
+      back = makeSticker(this.root!, "backBtn", this.stickerMaterial, this.menuTexture, 19);
+      makeLabel(back, t("newGarment"), 1.3, new vec3(0.35, 0.12, 0.3), new vec4(0.13, 0.17, 0.32, 1));
     } else {
-      back = makePlate(this.root!, "backBtn", 12, 4.5, this.backMaterial);
+      back = makePlate(this.root!, "backBtn", 17, 4.5, this.backMaterial);
       makeLabel(back, t("newGarment"), 1.5, new vec3(0, 0, 0.2));
     }
-    back.getTransform().setLocalPosition(new vec3(0, -CARD_H / 2 - 3, 0));
-    makeTappable(back, 13, 3.5, () => {
+    back.getTransform().setLocalPosition(new vec3(0, -CARD_H / 2 - 3.5, 0));
+    makeTappable(back, 19, 5, () => {
       if (this.onBack !== null) {
         this.onBack();
       }

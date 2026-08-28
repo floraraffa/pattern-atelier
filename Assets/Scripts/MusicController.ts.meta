@@ -30,6 +30,7 @@
   ScriptInputsHidden:
     audioTrack: false
     buttonSize: false
+    duckVolume: false
     offTexture: false
     offsetX: false
     offsetY: false
@@ -51,6 +52,7 @@
       onTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
       offTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
       volume: 0.250000
+      duckVolume: 0.050000
       buttonSize: 4.200000
       startOn: true
       offsetX: !<float> 0.000000
@@ -63,8 +65,9 @@
     - // @input Asset.Material stickerMaterial
     - // @input Asset.Texture onTexture
     - // @input Asset.Texture offTexture
-    - // @input float volume = 0.25
-    - // @input float buttonSize = 4.2
+    - // @input float volume = 0.22
+    - // @input float duckVolume = 0.05
+    - // @input float buttonSize = 4.6
     - // @input bool startOn = true
     - // @input float offsetX
     - // @input float offsetY

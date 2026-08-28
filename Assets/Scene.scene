@@ -2000,6 +2000,7 @@
       helpBtnSize: !<float> 5.000000
       ttsVoice: nova
       ttsEnabled: true
+      music: !<MappingBased.AssignableType_1> c4af89fc-665d-444e-a83c-5d958b99d976
   ScriptTypes:
     "":
       {}
@@ -2598,6 +2599,7 @@
   ScriptAsset: !<reference> 7bc57563-cabf-4c72-884e-9f69df5d61e3
   ScriptInputsDefault:
     volume: true
+    duckVolume: true
     buttonSize: true
     startOn: true
     offsetX: true
@@ -2606,11 +2608,12 @@
     {}
   ScriptInputs:
     "":
-      audioTrack: !<reference.AudioTrackAsset> 9e3fe2a1-bdeb-43d6-9ccb-4c1ff35a936a
+      audioTrack: !<reference.AudioTrackAsset> 14c598ee-080d-45f6-8acc-a8b5affcb13e
       stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
-      onTexture: !<reference.Texture> ea045047-1143-4c59-bf48-895d371359b0
-      offTexture: !<reference.Texture> af79c4f8-9f81-4858-a657-dc11fadd23fe
+      onTexture: !<reference.Texture> 30c0b096-8f61-4a43-963a-699eead28eb5
+      offTexture: !<reference.Texture> 20c63a51-08d1-4505-947e-668f318d9e20
       volume: 0.250000
+      duckVolume: 0.050000
       buttonSize: 4.200000
       startOn: true
       offsetX: !<float> 0.000000

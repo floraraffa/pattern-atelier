@@ -12,6 +12,7 @@
 import { OpenAI } from "RemoteServiceGateway.lspkg/HostedExternal/OpenAI";
 import { makeLabel, makeButton, makeSticker, makeTappable, resetLocal } from "./UiLite";
 import { buildTexturedQuadMesh } from "./LineMesh";
+import { MusicController } from "./MusicController";
 
 @component
 export class Mascot extends BaseScriptComponent {
@@ -56,6 +57,10 @@ export class Mascot extends BaseScriptComponent {
   @input helpBtnSize: number = 5;
   @input ttsVoice: string = "nova";
   @input ttsEnabled: boolean = true;
+  // Música de fondo: se agacha mientras la nube habla (protagonismo de la AI)
+  @input
+  @allowUndefined
+  music: MusicController;
 
   private bubbleText: Text | null = null;
   private body: SceneObject | null = null;
@@ -243,9 +248,11 @@ export class Mascot extends BaseScriptComponent {
         }
         this.talking = true;
         this.talkUntil = getTime() + dur;
+        this.setMusicDucked(true);
       })
       .catch((error) => {
         print("Mascot: TTS falló (sigue solo texto): " + error);
+        this.setMusicDucked(false);
       });
   }
 
@@ -256,6 +263,7 @@ export class Mascot extends BaseScriptComponent {
     if (getTime() >= this.talkUntil) {
       this.talking = false;
       this.setFace(this.idleFace());
+      this.setMusicDucked(false);
       return;
     }
     this.talkTimer += getDeltaTime();
@@ -277,6 +285,13 @@ export class Mascot extends BaseScriptComponent {
       this.audio.stop(false);
     }
     this.talking = false;
+    this.setMusicDucked(false);
+  }
+
+  private setMusicDucked(on: boolean) {
+    if (this.music !== undefined && !isNull(this.music)) {
+      this.music.setDucked(on);
+    }
   }
 
   show() {

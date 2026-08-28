@@ -46,6 +46,7 @@
     helpBtnX: false
     helpBtnY: false
     maxBubbleLines: false
+    music: false
     texCloseBtn: false
     texClosed: false
     texError: false
@@ -93,6 +94,7 @@
       helpBtnSize: !<float> 5.000000
       ttsVoice: nova
       ttsEnabled: true
+      music: !<MappingBased.AssignableType_1> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     -
       {}
@@ -125,3 +127,4 @@
     - // @input float helpBtnSize = 5
     - '// @input string ttsVoice = "nova"'
     - // @input bool ttsEnabled = true
+    - // @input AssignableType_1 music
