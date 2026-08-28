@@ -3,6 +3,7 @@
 // El radio de cintura sale del contorno: r = cintura / (2π · fullness).
 
 import { PatternPiece, PatternSpec, Point2, p } from "./PatternTypes";
+import { t } from "./I18n";
 
 export interface CircleSkirtParams {
   waist: number; // contorno de cintura total
@@ -46,8 +47,8 @@ export function draftCircleSkirt(params: CircleSkirtParams): PatternSpec {
   const rWaist = params.waist / (2 * Math.PI * fullness);
   const rHem = rWaist + params.length;
 
-  const front = halfAnnulus("DELANTERO", rWaist, rHem);
-  const back = halfAnnulus("TRASERO", rWaist, rHem);
+  const front = halfAnnulus(t("pieceFront"), rWaist, rHem);
+  const back = halfAnnulus(t("pieceBack"), rWaist, rHem);
 
   return {
     name: fullness >= 0.9 ? "Pollera plato" : "Pollera semi-plato",

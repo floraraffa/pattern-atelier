@@ -168,7 +168,7 @@ export class PromptButton extends BaseScriptComponent {
     });
     options.onTranscriptionErrorEvent.add((code) => {
       this.stopListening();
-      this.setStatus("Error de voz (" + code + ")");
+      this.setStatus(t("voiceError") + " (" + code + ")");
     });
 
     this.asrModule.startTranscribing(options);

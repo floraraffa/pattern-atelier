@@ -2,6 +2,7 @@
 // Trazado clásico sobre cuarto de molde (delantero y trasero), medidas en cm.
 
 import { PatternPiece, PatternSpec, Point2, p, quadBezier } from "./PatternTypes";
+import { t } from "./I18n";
 
 export interface SkirtParams {
   waist: number; // contorno de cintura total
@@ -81,8 +82,8 @@ export function draftStraightSkirt(params: SkirtParams): PatternSpec {
   const quarterWaist = params.waist / 4;
   const quarterHip = params.hip / 4 + easeHip;
 
-  const front = skirtQuarter("DELANTERO", quarterWaist, quarterHip, params.length, hipDepth, frontDart, 9, flare);
-  const back = skirtQuarter("TRASERO", quarterWaist, quarterHip, params.length, hipDepth, backDart, 13, flare);
+  const front = skirtQuarter(t("pieceFront"), quarterWaist, quarterHip, params.length, hipDepth, frontDart, 9, flare);
+  const back = skirtQuarter(t("pieceBack"), quarterWaist, quarterHip, params.length, hipDepth, backDart, 13, flare);
 
   return {
     name: flare > 0 ? "Falda evasé" : "Falda recta",

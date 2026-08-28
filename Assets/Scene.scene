@@ -2318,7 +2318,6 @@
     confirmTextSize: true
     itemTextNavy: true
     showCenteredTitle: true
-    headerX: true
     centeredLabelTexture: true
     centeredLabelWidth: true
     centeredLabelTextSize: true
@@ -2347,7 +2346,7 @@
       confirmTextSize: 1.500000
       itemTextNavy: false
       showCenteredTitle: false
-      headerX: !<float> 4.000000
+      headerX: !<float> 2.000000
       centeredLabelTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
       centeredLabelWidth: 12.500000
       centeredLabelTextSize: 1.100000
@@ -3002,7 +3001,6 @@
     progressTexture: true
     confirmWidth: true
     confirmTextSize: true
-    headerX: true
     centeredLabelWidth: true
     centeredLabelTextSize: true
   ScriptTypesDefault:
@@ -3029,7 +3027,7 @@
       confirmTextSize: 1.500000
       itemTextNavy: true
       showCenteredTitle: true
-      headerX: !<float> 4.000000
+      headerX: !<float> 2.000000
       centeredLabelTexture: !<reference.Texture> 7fba85d1-1077-489d-adc5-e600d40698e0
       centeredLabelWidth: 12.500000
       centeredLabelTextSize: 1.100000

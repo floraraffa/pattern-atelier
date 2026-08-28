@@ -90,6 +90,7 @@ export class AppFlow extends BaseScriptComponent {
   private projectCards: AICard[] = [];
   private modifyIndex: number = -1;
   private state: string = "LANG";
+  private seededDemo: boolean = false; // cards de muestra: se re-nombran al idioma elegido
 
   onAwake() {
     this.createEvent("OnStartEvent").bind(() => this.start());
@@ -143,6 +144,7 @@ export class AppFlow extends BaseScriptComponent {
         { block: "bodice", name: "Corpiño 1950", section: "tops", params: { bust: 93, waist: 75, length: 40 } },
         { block: "circle_skirt", name: "Pollera plato", section: "faldas", params: { waist: 75, length: 65, fullness: 1 } }
       ];
+      this.seededDemo = true;
     }
 
     this.enterLang();
@@ -300,6 +302,11 @@ export class AppFlow extends BaseScriptComponent {
   }
 
   private enterCards(mascotMsg: string) {
+    // Las cards de muestra se traducen al idioma vigente
+    if (this.seededDemo && this.projectCards.length >= 2) {
+      this.projectCards[0].name = t("demoBodice");
+      this.projectCards[1].name = t("demoSkirt");
+    }
     this.state = "CARDS";
     this.setLogoScale(1);
     this.setStep(4);
@@ -354,6 +361,7 @@ export class AppFlow extends BaseScriptComponent {
   private onCardsReady(cards: AICard[], explica: string) {
     this.mascot.setThinking(false);
     this.mascot.setMood("happy");
+    this.seededDemo = false;
     this.projectCards = cards;
     this.persist();
     this.enterCards("");

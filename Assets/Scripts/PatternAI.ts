@@ -8,6 +8,7 @@
 import { OpenAI } from "RemoteServiceGateway.lspkg/HostedExternal/OpenAI";
 import { Gemini } from "RemoteServiceGateway.lspkg/HostedExternal/Gemini";
 import { DeepSeek } from "RemoteServiceGateway.lspkg/HostedSnap/Deepseek";
+import { t, tf } from "./I18n";
 
 export interface AICard {
   block: string;
@@ -97,7 +98,10 @@ export class PatternAI extends BaseScriptComponent {
   }
 
   private langRule(): string {
-    return "\nIMPORTANTE: escribí \"name\" y \"explica\" en " + this.languageName + ".";
+    return "\nIMPORTANTE: los ejemplos de arriba están en español, pero eso es solo el formato. " +
+      "TODO texto visible de tu respuesta — \"name\", \"section\" y \"explica\" — va EXCLUSIVAMENTE en " +
+      this.languageName + ". Nombres cortos y naturales en ese idioma (no dejes NINGUNA palabra en " +
+      "español si el idioma es otro).";
   }
 
   // Guía de corte paso a paso, hablada por la mascota en el idioma elegido.
@@ -152,7 +156,7 @@ export class PatternAI extends BaseScriptComponent {
         ". Usá estas medidas salvo que el estilo indique otras explícitas.";
     }
     print("PatternAI: generando → " + userMsg);
-    this.setStatus("Creando tus moldes…", false);
+    this.setStatus(t("working"), false);
 
     this.call(GENERATE_PROMPT, userMsg, (clean) => {
       const parsed = JSON.parse(clean) as { explica?: string; cards: AICard[] };
@@ -162,7 +166,7 @@ export class PatternAI extends BaseScriptComponent {
       const cards = parsed.cards.slice(0, 5);
       const explica = parsed.explica !== undefined ? parsed.explica : "";
       print("PatternAI: " + cards.length + " cards generadas. " + explica);
-      this.setStatus("¡Listo! " + cards.length + (cards.length === 1 ? " molde creado" : " moldes creados"), false);
+      this.setStatus(tf("aiReady", String(cards.length)), false);
       if (this.onCardsReady !== null) {
         this.onCardsReady(cards, explica);
       }
@@ -176,7 +180,7 @@ export class PatternAI extends BaseScriptComponent {
     this.busy = true;
     const userMsg = "Card actual: " + JSON.stringify(card) + "\nInstrucción: " + instruction;
     print("PatternAI: modificando '" + card.name + "' → " + instruction);
-    this.setStatus("Ajustando el molde…", false);
+    this.setStatus(t("aiAdjusting"), false);
 
     this.call(MODIFY_PROMPT, userMsg, (clean) => {
       const parsed = JSON.parse(clean) as { explica?: string; card?: AICard } & AICard;
@@ -187,7 +191,7 @@ export class PatternAI extends BaseScriptComponent {
       }
       const explica = parsed.explica !== undefined ? parsed.explica : "";
       print("PatternAI: card actualizada → " + JSON.stringify(updated) + " | " + explica);
-      this.setStatus("Molde actualizado: " + updated.name, false);
+      this.setStatus(t("aiUpdated") + ": " + updated.name, false);
       if (this.onCardModified !== null) {
         this.onCardModified(updated, explica);
       }
@@ -208,7 +212,7 @@ export class PatternAI extends BaseScriptComponent {
     if (idx >= providers.length) {
       this.busy = false;
       print("PatternAI: ninguna AI respondió (¿token de RSG configurado?)");
-      this.setStatus("Ninguna AI respondió (¿token RSG?)", true);
+      this.setStatus(t("aiNone"), true);
       return;
     }
     const name = providers[idx];

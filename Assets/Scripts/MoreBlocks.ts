@@ -2,6 +2,7 @@
 // ropa interior (bombacha). Trazados simplificados pero creíbles, en cm.
 
 import { PatternPiece, PatternSpec, Point2, p, quadBezier } from "./PatternTypes";
+import { t } from "./I18n";
 
 // ---------- PANTALÓN ----------
 
@@ -56,8 +57,8 @@ export function draftPants(params: PantsParams): PatternSpec {
   const legOpening = params.legOpening !== undefined ? params.legOpening : 40;
   const legHalf = legOpening / 4 + 1;
 
-  const front = pantsHalf("DELANTERO", params.waist / 4 + 1, params.hip / 4 + 1.5, params.length, rise, params.hip / 16 + 1, legHalf, 2);
-  const back = pantsHalf("TRASERO", params.waist / 4 + 2, params.hip / 4 + 2.5, params.length, rise + 1, params.hip / 8 + 1, legHalf + 1, 3);
+  const front = pantsHalf(t("pieceFront"), params.waist / 4 + 1, params.hip / 4 + 1.5, params.length, rise, params.hip / 16 + 1, legHalf, 2);
+  const back = pantsHalf(t("pieceBack"), params.waist / 4 + 2, params.hip / 4 + 2.5, params.length, rise + 1, params.hip / 8 + 1, legHalf + 1, 3);
 
   return { name: "Pantalón base", section: "pantalones", pieces: [front, back] };
 }
@@ -107,7 +108,7 @@ export function draftLeggings(params: LeggingsParams): PatternSpec {
   const arrowR: Point2[] = [p(1.5, L * 0.15 + 3), p(0, L * 0.15)];
 
   const leg: PatternPiece = {
-    name: "PIERNA",
+    name: t("pieceLeg"),
     outline: outline,
     internalLines: [grain, arrowL, arrowR],
     cutOnFold: false,
@@ -142,15 +143,15 @@ export function draftUnderwear(params: UnderwearParams): PatternSpec {
     return { name: name, outline: outline, internalLines: [grain], cutOnFold: true };
   }
 
-  const front = piece("DELANTERO", frontTop, rise, 0.55);
-  const back = piece("TRASERO", backTop, rise + 2, 0.8);
+  const front = piece(t("pieceFront"), frontTop, rise, 0.55);
+  const back = piece(t("pieceBack"), backTop, rise + 2, 0.8);
 
   // Entrepierna (forro): rectángulo con leves curvas
   const g: Point2[] = [];
   g.push(...quadBezier(p(0, 12), p(crotchW * 1.15, 11), p(crotchW, 6), 6));
   g.push(...quadBezier(p(crotchW, 6), p(crotchW * 1.1, 1), p(0, 0), 6));
   const gusset: PatternPiece = {
-    name: "ENTREPIERNA",
+    name: t("pieceGusset"),
     outline: g,
     internalLines: [],
     cutOnFold: true,

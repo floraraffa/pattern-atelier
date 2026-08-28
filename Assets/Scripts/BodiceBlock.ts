@@ -2,6 +2,7 @@
 // Trazado simplificado del bloque clásico: escote, hombro, sisa, costado y pinza de talle.
 
 import { PatternPiece, PatternSpec, Point2, p, quadBezier } from "./PatternTypes";
+import { t } from "./I18n";
 
 export interface BodiceParams {
   bust: number; // contorno de busto total
@@ -68,8 +69,8 @@ export function draftBodice(params: BodiceParams): PatternSpec {
   const quarterBust = params.bust / 4 + 1.5;
   const quarterWaist = params.waist / 4 + 1;
 
-  const front = bodiceQuarter("DELANTERO", quarterBust, quarterWaist, params.length, 7.2, 3);
-  const back = bodiceQuarter("TRASERO", quarterBust - 0.5, quarterWaist, params.length, 2.5, 3.5);
+  const front = bodiceQuarter(t("pieceFront"), quarterBust, quarterWaist, params.length, 7.2, 3);
+  const back = bodiceQuarter(t("pieceBack"), quarterBust - 0.5, quarterWaist, params.length, 2.5, 3.5);
 
   return {
     name: "Corpiño básico",

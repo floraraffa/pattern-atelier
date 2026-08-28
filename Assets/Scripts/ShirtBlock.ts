@@ -2,6 +2,7 @@
 // canesú), cuello camisero (cuello + pie de cuello) y puño. En cm.
 
 import { PatternPiece, PatternSpec, Point2, p, quadBezier } from "./PatternTypes";
+import { t } from "./I18n";
 
 // ---------- CUERPO DE CAMISA ----------
 
@@ -78,8 +79,8 @@ function shirtBody(
 export function draftShirt(params: ShirtParams): PatternSpec {
   const quarterBust = params.bust / 4 + 3; // holgura de camisa
   // Cortina de botones: 3 cm de cartera → extensión de 6 cm con línea de doblez
-  const front = shirtBody("DELANTERO", quarterBust, params.length, 8, 6, false);
-  const back = shirtBody("TRASERO", quarterBust + 0.5, params.length + 1, 3, 0, true);
+  const front = shirtBody(t("pieceFront"), quarterBust, params.length, 8, 6, false);
+  const back = shirtBody(t("pieceBack"), quarterBust + 0.5, params.length + 1, 3, 0, true);
   return { name: "Camisa base", section: "tops", pieces: [front, back] };
 }
 
@@ -101,7 +102,7 @@ export function draftCollar(params: CollarParams): PatternSpec {
   collar.push(p(halfNeck + 2.5, 0)); // punta del cuello
   collar.push(p(0, 0));
   const cPiece: PatternPiece = {
-    name: "CUELLO",
+    name: t("pieceCollar"),
     outline: collar,
     internalLines: [[p(halfNeck * 0.4, h * 0.65), p(halfNeck * 0.7, h * 0.65)]],
     cutOnFold: true,
@@ -114,7 +115,7 @@ export function draftCollar(params: CollarParams): PatternSpec {
   stand.push(...quadBezier(p(halfNeck + 1.5, 2.6), p(halfNeck + 2, 1.2), p(halfNeck, 0), 6));
   stand.push(p(0, 0));
   const sPiece: PatternPiece = {
-    name: "PIE DE CUELLO",
+    name: t("pieceCollarStand"),
     outline: stand,
     internalLines: [],
     cutOnFold: true,
@@ -143,7 +144,7 @@ export function draftCuff(params: CuffParams): PatternSpec {
   outline.push(...quadBezier(p(1.5, 0), p(0, 0), p(0, h * 0.35), 5));
 
   const piece: PatternPiece = {
-    name: "PUÑO",
+    name: t("pieceCuff"),
     outline: outline,
     internalLines: [[p(2, h / 2), p(3, h / 2)], [p(w - 3, h / 2), p(w - 2, h / 2)]],
     cutOnFold: false,

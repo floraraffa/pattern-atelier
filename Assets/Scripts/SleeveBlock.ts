@@ -2,6 +2,7 @@
 // copa con curva delantera y trasera, afinando hacia el puño.
 
 import { PatternPiece, PatternSpec, Point2, p, quadBezier } from "./PatternTypes";
+import { t } from "./I18n";
 
 export interface SleeveParams {
   armhole: number; // contorno de sisa (típico 42-48)
@@ -42,7 +43,7 @@ export function draftSleeve(params: SleeveParams): PatternSpec {
   const arrowR: Point2[] = [p(1.5, L * 0.2 + 3), p(0, L * 0.2)];
 
   const piece: PatternPiece = {
-    name: "MANGA",
+    name: t("pieceSleeve"),
     outline: outline,
     internalLines: [elbow, grain, arrowL, arrowR],
     cutOnFold: false
