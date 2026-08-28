@@ -188,29 +188,45 @@ export class Mascot extends BaseScriptComponent {
     this.lastMessage = message;
     this.sayToken += 1;
     const token = this.sayToken;
-    const wrapped = this.wrap(message, this.bubbleWrapChars);
-    const lines = wrapped.split("\n");
-    if (lines.length <= this.maxBubbleLines) {
-      this.setBubble(wrapped);
+    // Texto largo: se parte en TODAS las páginas que hagan falta (2, 3, 4…)
+    // para que SIEMPRE entre en el globo, y se muestran una tras otra.
+    const parts = this.splitParts(message);
+    this.showPart(parts, 0, token);
+  }
+
+  // Corta el mensaje en páginas que entren en maxBubbleLines renglones
+  private splitParts(message: string): string[] {
+    const words = message.split(" ");
+    const parts: string[] = [];
+    let current = "";
+    for (const w of words) {
+      const cand = current === "" ? w : current + " " + w;
+      const lines = this.wrap(cand + " …", this.bubbleWrapChars).split("\n").length;
+      if (lines > this.maxBubbleLines && current !== "") {
+        parts.push(current);
+        current = w;
+      } else {
+        current = cand;
+      }
+    }
+    if (current !== "") {
+      parts.push(current);
+    }
+    return parts;
+  }
+
+  private showPart(parts: string[], idx: number, token: number) {
+    if (token !== this.sayToken || idx >= parts.length) {
       return;
     }
-    // Texto largo: partirlo en dos y mostrarlo por partes
-    const words = message.split(" ");
-    let part1 = "";
-    let i = 0;
-    while (i < words.length && (part1.length + words[i].length) < message.length / 2) {
-      part1 += (part1 === "" ? "" : " ") + words[i];
-      i += 1;
+    const isLast = idx === parts.length - 1;
+    this.setBubble(this.wrap(parts[idx] + (isLast ? "" : " …"), this.bubbleWrapChars));
+    if (!isLast) {
+      const evt = this.createEvent("DelayedCallbackEvent") as DelayedCallbackEvent;
+      evt.bind(() => this.showPart(parts, idx + 1, token));
+      // Tiempo de lectura acorde al largo de la página
+      evt.reset(Math.max(3.2, parts[idx].length / 11));
     }
-    const part2 = words.slice(i).join(" ");
-    this.setBubble(this.wrap(part1 + " …", this.bubbleWrapChars));
-    const evt = this.createEvent("DelayedCallbackEvent") as DelayedCallbackEvent;
-    evt.bind(() => {
-      if (token === this.sayToken) {
-        this.setBubble(this.wrap(part2, this.bubbleWrapChars));
-      }
-    });
-    evt.reset(Math.max(3.5, part1.length / 12));
   }
 
   private setBubble(textValue: string) {

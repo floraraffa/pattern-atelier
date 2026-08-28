@@ -1276,7 +1276,6 @@
     maximumScaleFactor: true
     enableStretchZ: true
     zStretchFactorMin: true
-    zStretchFactorMax: true
     useFilter: true
     showTranslationProperties: true
     _enableXTranslation: true
@@ -1294,7 +1293,7 @@
       maximumScaleFactor: !<float> 20.000000
       enableStretchZ: true
       zStretchFactorMin: !<float> 1.000000
-      zStretchFactorMax: !<float> 12.000000
+      zStretchFactorMax: !<float> 6.000000
       useFilter: true
       showTranslationProperties: false
       _enableXTranslation: true

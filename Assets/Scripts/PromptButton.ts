@@ -107,20 +107,29 @@ export class PromptButton extends BaseScriptComponent {
     }
   }
 
-  // El círculo del micrófono: en Specs arranca/corta el dictado por voz;
-  // en el editor (sin micrófono) avisa y abre el teclado.
+  // El círculo del micrófono: arranca/corta el dictado por voz. También en el
+  // editor (el preview usa el mic de la compu); si el mic falla ahí, cae al teclado.
   private onMicTap() {
+    if (this.listening) {
+      this.stopListening();
+      return;
+    }
+    try {
+      this.startListening();
+    } catch (e) {
+      print("PromptButton: ASR no disponible (" + e + ")");
+      this.micFallback();
+    }
+  }
+
+  private micFallback() {
+    this.listening = false;
+    this.setButtonLook(false, this.idleLabel);
     if (global.deviceInfoSystem.isEditor()) {
       this.setStatus(t("micHint"));
       if (!this.typing) {
         this.openKeyboard();
       }
-      return;
-    }
-    if (this.listening) {
-      this.stopListening();
-    } else {
-      this.startListening();
     }
   }
 
@@ -191,7 +200,12 @@ export class PromptButton extends BaseScriptComponent {
     });
     options.onTranscriptionErrorEvent.add((code) => {
       this.stopListening();
-      this.setStatus(t("voiceError") + " (" + code + ")");
+      if (global.deviceInfoSystem.isEditor()) {
+        // El preview no consiguió micrófono: caemos al teclado
+        this.micFallback();
+      } else {
+        this.setStatus(t("voiceError") + " (" + code + ")");
+      }
     });
 
     this.asrModule.startTranscribing(options);
