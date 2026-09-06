@@ -29,8 +29,10 @@
   PackagePolicy: CanBeUnpacked
   ScriptInputsHidden:
     ai: false
+    backNav: false
     cards: false
     demoSeed: false
+    fitPreview: false
     garmentCardTextures: false
     garmentCarousel: false
     genderIconTextures: false
@@ -58,11 +60,13 @@
       garmentCarousel: !<MappingBased.AssignableType_2> 00000000-0000-0000-0000-000000000000
       sizeCarousel: !<MappingBased.AssignableType_3> 00000000-0000-0000-0000-000000000000
       progress: !<MappingBased.AssignableType_4> 00000000-0000-0000-0000-000000000000
-      cards: !<MappingBased.AssignableType_5> 00000000-0000-0000-0000-000000000000
-      promptBtn: !<MappingBased.AssignableType_6> 00000000-0000-0000-0000-000000000000
-      mascot: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
-      ai: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
-      renderer: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
+      backNav: !<MappingBased.AssignableType_5> 00000000-0000-0000-0000-000000000000
+      cards: !<MappingBased.AssignableType_6> 00000000-0000-0000-0000-000000000000
+      promptBtn: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
+      mascot: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
+      ai: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
+      renderer: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
+      fitPreview: !<MappingBased.AssignableType_11> 00000000-0000-0000-0000-000000000000
       demoSeed: false
       logoObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
       langCardTextures: !<reference.Texture[]>
@@ -85,11 +89,13 @@
     - // @input AssignableType_2 garmentCarousel
     - // @input AssignableType_3 sizeCarousel
     - // @input AssignableType_4 progress
-    - // @input AssignableType_5 cards
-    - // @input AssignableType_6 promptBtn
-    - // @input AssignableType_7 mascot
-    - // @input AssignableType_8 ai
-    - // @input AssignableType_9 renderer
+    - // @input AssignableType_5 backNav
+    - // @input AssignableType_6 cards
+    - // @input AssignableType_7 promptBtn
+    - // @input AssignableType_8 mascot
+    - // @input AssignableType_9 ai
+    - // @input AssignableType_10 renderer
+    - // @input AssignableType_11 fitPreview
     - // @input bool demoSeed
     - // @input SceneObject logoObject
     - "// @input Asset.Texture[] langCardTextures"

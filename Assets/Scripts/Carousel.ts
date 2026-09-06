@@ -4,7 +4,7 @@
 // de a una). Componente genérico: AppFlow lo usa para idiomas y para prendas.
 
 import { Interactable } from "SpectaclesInteractionKit.lspkg/Components/Interaction/Interactable/Interactable";
-import { makePlate, makeLabel, makeTappable, makeSticker, resetLocal } from "./UiLite";
+import { makePlate, makeLabel, makeTappable, makeSticker, resetLocal, safeDestroy } from "./UiLite";
 import { buildQuadMesh } from "./LineMesh";
 
 export interface CarouselItem {
@@ -19,9 +19,13 @@ export class Carousel extends BaseScriptComponent {
   @input plateMaterial: Material;
   @input selectedMaterial: Material;
   @input confirmMaterial: Material;
-  @input itemWidth: number = 24;
-  @input itemHeight: number = 13;
-  @input spacing: number = 28;
+  @input itemWidth: number = 10;
+  @input itemHeight: number = 12;
+  @input spacing: number = 13;
+  // Ancho del tablero pergamino (cm). Independiente del spacing de cards.
+  @input boardWidth: number = 52;
+  // Si true: tap en una card confirma y avanza (sin botón Continuar)
+  @input tapCardToPick: boolean = true;
   // Skin opcional (texturas del diseño de Flor); si faltan, se usa el look plano
   @input
   @allowUndefined
@@ -45,14 +49,16 @@ export class Carousel extends BaseScriptComponent {
   @allowUndefined
   arrowNextTexture: Texture; // flecha avanzar (arte)
   @input stripOffsetY: number = 0; // corrimiento vertical de las cards
-  @input headerY: number = 13.5; // altura del título de texto
+  @input headerY: number = 12.5; // altura del título de texto
   @input confirmY: number = -15.5; // altura del botón de confirmar
   @input confirmWidth: number = 19; // ancho del botón de confirmar (cm)
   @input confirmTextSize: number = 1.5; // tamaño del texto del botón (cm)
   @input itemTextNavy: boolean = false; // texto de items azul marino (para placas claras)
   @input showCenteredTitle: boolean = false; // nombre del item centrado bajo el carrusel
-  // ✏️ Corrimiento horizontal del título/subtítulo (despegarlo del logo)
-  @input headerX: number = 4;
+  // ✏️ Corrimiento horizontal del título/subtítulo (0 = centrado)
+  @input headerX: number = 0;
+  @input headerTitleSize: number = 1.7;
+  @input headerSubSize: number = 1.0;
   // Contenedor cosido para el nombre del item central (arte de Flor)
   @input
   @allowUndefined
@@ -131,10 +137,10 @@ export class Carousel extends BaseScriptComponent {
 
   private rebuild(title: string) {
     if (this.strip !== null && !isNull(this.strip)) {
-      this.strip.destroy();
+      safeDestroy(this.strip);
     }
     if (this.chrome !== null && !isNull(this.chrome)) {
-      this.chrome.destroy();
+      safeDestroy(this.chrome);
     }
     this.plates = [];
 
@@ -145,17 +151,29 @@ export class Carousel extends BaseScriptComponent {
     const canSticker = this.stickerMaterial !== undefined && !isNull(this.stickerMaterial);
     for (let i = 0; i < this.items.length; i++) {
       const tex = this.items[i].texture;
+      let plate: SceneObject;
+      let hitH = this.itemHeight + 1;
       if (canSticker && tex !== undefined && !isNull(tex)) {
         this.textured = true;
-        this.plates.push(makeSticker(this.strip, "item_" + i, this.stickerMaterial, tex, this.itemWidth));
+        plate = makeSticker(this.strip, "item_" + i, this.stickerMaterial, tex, this.itemWidth);
+        hitH = this.itemWidth * (tex.getHeight() / tex.getWidth()) + 1;
       } else {
-        const plate = makePlate(this.strip, "item_" + i, this.itemWidth, this.itemHeight, this.plateMaterial);
+        plate = makePlate(this.strip, "item_" + i, this.itemWidth, this.itemHeight, this.plateMaterial);
         const navy = new vec4(0.13, 0.17, 0.32, 1);
-        makeLabel(plate, this.items[i].title, 2.2, new vec3(0, 1.2, 0.2), this.itemTextNavy ? navy : undefined);
+        makeLabel(plate, this.items[i].title, 1.6, new vec3(0, 1.0, 0.2), this.itemTextNavy ? navy : undefined);
         if (this.items[i].subtitle !== "") {
-          makeLabel(plate, this.items[i].subtitle, 1.2, new vec3(0, -3, 0.2), this.itemTextNavy ? navy : undefined);
+          makeLabel(plate, this.items[i].subtitle, 1.0, new vec3(0, -2.4, 0.2), this.itemTextNavy ? navy : undefined);
         }
-        this.plates.push(plate);
+      }
+      this.plates.push(plate);
+      if (this.tapCardToPick) {
+        const idx = i;
+        // Hitbox delante del visual: las cards laterales no quedan tapadas por dragZone/flechas
+        const hit = global.scene.createSceneObject("hit_" + i);
+        hit.setParent(plate);
+        resetLocal(hit);
+        hit.getTransform().setLocalPosition(new vec3(0, 0, 2));
+        makeTappable(hit, this.itemWidth + 1.5, hitH, () => this.pickIndex(idx));
       }
     }
 
@@ -166,43 +184,48 @@ export class Carousel extends BaseScriptComponent {
 
     // Decorado: tablero de fondo, barra de progreso y título ilustrado
     if (canSticker && this.backgroundTexture !== undefined && !isNull(this.backgroundTexture)) {
-      const board = makeSticker(this.chrome, "board", this.stickerMaterial, this.backgroundTexture, this.spacing * 3.1);
+      const board = makeSticker(this.chrome, "board", this.stickerMaterial, this.backgroundTexture, this.boardWidth);
       board.getTransform().setLocalPosition(new vec3(0, -1, -6));
     }
     if (canSticker && this.progressTexture !== undefined && !isNull(this.progressTexture)) {
-      const prog = makeSticker(this.chrome, "progress", this.stickerMaterial, this.progressTexture, this.spacing * 2.6);
+      const prog = makeSticker(this.chrome, "progress", this.stickerMaterial, this.progressTexture, this.boardWidth * 0.85);
       prog.getTransform().setLocalPosition(new vec3(0, this.itemHeight / 2 + 12.5, -1));
     }
     if (this.headerTitle === "") {
       this.titleText = makeLabel(this.chrome, title, 2.4, new vec3(0, this.itemHeight / 2 + 6, 0));
     }
-    // Título y subtítulo de texto (estilo referencia: azul marino + ✗✗✗ rosas)
+    // Título y subtítulo centrados, más chicos, arriba de las cards
     if (this.headerTitle !== "") {
       const NAVY = new vec4(0.13, 0.17, 0.32, 1);
       const GRAYW = new vec4(0.42, 0.38, 0.34, 1);
       const hy = this.headerY;
       const hx = this.headerX;
-      this.headerTitleText = makeLabel(this.chrome, this.headerTitle, 2.5, new vec3(hx, hy, 0), NAVY);
+      this.headerTitleText = makeLabel(this.chrome, this.headerTitle, this.headerTitleSize, new vec3(hx, hy, 0.5), NAVY);
       if (this.headerSubtitle !== "") {
-        this.headerSubText = makeLabel(this.chrome, this.headerSubtitle, 1.3, new vec3(hx, hy - 3.1, 0), GRAYW);
+        this.headerSubText = makeLabel(
+          this.chrome,
+          this.headerSubtitle,
+          this.headerSubSize,
+          new vec3(hx, hy - 2.2, 0.5),
+          GRAYW
+        );
       }
     }
 
-    // Zona de arrastre: plato invisible ancho por detrás de los items
+    // Zona de arrastre BIEN ATRÁS: no debe tapar los hitboxes de las cards
     const dragZone = global.scene.createSceneObject("dragZone");
     dragZone.setParent(this.chrome);
     resetLocal(dragZone);
-    dragZone.getTransform().setLocalPosition(new vec3(0, 0, -1));
+    dragZone.getTransform().setLocalPosition(new vec3(0, this.stripOffsetY, -8));
     const collider = dragZone.createComponent("Physics.ColliderComponent") as ColliderComponent;
     const shape = Shape.createBoxShape();
-    shape.size = new vec3(this.spacing * 3.4, this.itemHeight + 6, 2);
+    shape.size = new vec3(Math.max(this.boardWidth * 0.55, this.spacing * 2.8), this.itemHeight + 4, 1.5);
     collider.shape = shape;
     const interactable = dragZone.createComponent(Interactable.getTypeName()) as Interactable;
     interactable.onDragUpdate.add((args) => {
       const dv = (args as { dragVector?: vec3 }).dragVector;
       if (dv !== undefined && dv !== null) {
         this.dragging = true;
-        // arrastrar a la derecha mueve el carrusel hacia atrás (como pasar página)
         this.targetOffset -= dv.x;
         this.clampTarget();
       }
@@ -218,50 +241,54 @@ export class Carousel extends BaseScriptComponent {
       const useArt = canSticker && artTex !== undefined && !isNull(artTex);
       let btn: SceneObject;
       if (useArt) {
-        btn = makeSticker(this.chrome!, "arrow", this.stickerMaterial, artTex, 5);
-        btn.getTransform().setLocalPosition(new vec3(x, arrowY, 0.5));
+        btn = makeSticker(this.chrome!, "arrow", this.stickerMaterial, artTex, 4.2);
+        btn.getTransform().setLocalPosition(new vec3(x, arrowY, 0.2));
       } else {
         const useCream = this.textured && this.arrowMaterial !== undefined && !isNull(this.arrowMaterial);
-        btn = makePlate(this.chrome!, "arrow", 5, 5, useCream ? this.arrowMaterial : this.plateMaterial);
-        btn.getTransform().setLocalPosition(new vec3(x, arrowY, 0.5));
-        makeLabel(btn, label, 2.2, new vec3(0, 0, 0.2), useCream ? new vec4(0.25, 0.55, 0.9, 1) : undefined);
+        btn = makePlate(this.chrome!, "arrow", 4.2, 4.2, useCream ? this.arrowMaterial : this.plateMaterial);
+        btn.getTransform().setLocalPosition(new vec3(x, arrowY, 0.2));
+        makeLabel(btn, label, 2.0, new vec3(0, 0, 0.2), useCream ? new vec4(0.25, 0.55, 0.9, 1) : undefined);
       }
-      makeTappable(btn, 5, 7.5, () => {
+      makeTappable(btn, 4.5, 5.5, () => {
         this.centered = Math.max(0, Math.min(this.centered + delta, this.items.length - 1));
         this.targetOffset = this.centered * this.spacing;
         this.notifyCentered();
       });
     };
     if (this.textured) {
-      mkArrow("‹", -this.spacing * 1.45, -1);
-      mkArrow("›", this.spacing * 1.45, 1);
+      const arrowX = Math.max(this.spacing * 1.7, this.boardWidth * 0.4);
+      mkArrow("‹", -arrowX, -1);
+      mkArrow("›", arrowX, 1);
     } else {
       mkArrow("‹", -this.itemWidth / 2 - 5, -1);
       mkArrow("›", this.itemWidth / 2 + 5, 1);
     }
 
-    if (canSticker && this.confirmTexture !== undefined && !isNull(this.confirmTexture)) {
-      const okW = this.confirmWidth;
-      const ok = makeSticker(this.chrome, "confirm", this.stickerMaterial, this.confirmTexture, okW);
-      const okH = okW * this.confirmTexture.getHeight() / this.confirmTexture.getWidth();
-      ok.getTransform().setLocalPosition(new vec3(0, this.confirmY, 0.5));
-      if (this.confirmLabel !== "") {
-        this.confirmText = makeLabel(ok, this.confirmLabel, this.confirmTextSize, new vec3(0.4, 0.12, 0.3), new vec4(0.13, 0.17, 0.32, 1));
+    // Continuar solo si no usamos tap-en-card (atajo del flujo)
+    if (!this.tapCardToPick) {
+      if (canSticker && this.confirmTexture !== undefined && !isNull(this.confirmTexture)) {
+        const okW = this.confirmWidth;
+        const ok = makeSticker(this.chrome, "confirm", this.stickerMaterial, this.confirmTexture, okW);
+        const okH = okW * this.confirmTexture.getHeight() / this.confirmTexture.getWidth();
+        ok.getTransform().setLocalPosition(new vec3(0, this.confirmY, 0.5));
+        if (this.confirmLabel !== "") {
+          this.confirmText = makeLabel(ok, this.confirmLabel, this.confirmTextSize, new vec3(0.4, 0.12, 0.3), new vec4(0.13, 0.17, 0.32, 1));
+        }
+        makeTappable(ok, okW, okH, () => {
+          if (this.onPick !== null) {
+            this.onPick(this.centered);
+          }
+        });
+      } else {
+        const ok = makePlate(this.chrome, "confirm", 12, 6, this.confirmMaterial);
+        ok.getTransform().setLocalPosition(new vec3(0, -this.itemHeight / 2 - 6, 0.5));
+        makeLabel(ok, "✓", 2.6, new vec3(0, 0, 0.2));
+        makeTappable(ok, 12, 6, () => {
+          if (this.onPick !== null) {
+            this.onPick(this.centered);
+          }
+        });
       }
-      makeTappable(ok, okW, okH, () => {
-        if (this.onPick !== null) {
-          this.onPick(this.centered);
-        }
-      });
-    } else {
-      const ok = makePlate(this.chrome, "confirm", 12, 6, this.confirmMaterial);
-      ok.getTransform().setLocalPosition(new vec3(0, -this.itemHeight / 2 - 6, 0.5));
-      makeLabel(ok, "✓", 2.6, new vec3(0, 0, 0.2));
-      makeTappable(ok, 12, 6, () => {
-        if (this.onPick !== null) {
-          this.onPick(this.centered);
-        }
-      });
     }
 
     if (this.showCenteredTitle) {
@@ -326,6 +353,16 @@ export class Carousel extends BaseScriptComponent {
     }
   }
 
+  private pickIndex(index: number) {
+    const clamped = Math.max(0, Math.min(index, this.items.length - 1));
+    this.centered = clamped;
+    this.targetOffset = clamped * this.spacing;
+    this.notifyCentered();
+    if (this.onPick !== null) {
+      this.onPick(clamped);
+    }
+  }
+
   private clampTarget() {
     const max = (this.items.length - 1) * this.spacing;
     if (this.targetOffset < -this.spacing * 0.4) {
@@ -375,11 +412,12 @@ export class Carousel extends BaseScriptComponent {
     for (let i = 0; i < this.plates.length; i++) {
       const x = i * this.spacing - this.offset;
       const dist = Math.min(Math.abs(x) / this.spacing, 1.6);
-      const scale = 1.15 - dist * 0.35;
+      // Escala suave: laterales casi del mismo tamaño (mejor hit + menos “English enorme”)
+      const scale = 1.08 - dist * 0.18;
       const plate = this.plates[i];
-      plate.getTransform().setLocalPosition(new vec3(x, this.stripOffsetY, -dist * 4));
+      // Poco depth: las cards laterales no quedan detrás del dragZone
+      plate.getTransform().setLocalPosition(new vec3(x, this.stripOffsetY, -dist * 0.8));
       plate.getTransform().setLocalScale(new vec3(scale, scale, 1));
-      // resaltar el del centro (solo en placas planas; los stickers ya traen su borde)
       if (!this.textured) {
         const rmv = plate.getComponent("Component.RenderMeshVisual") as RenderMeshVisual;
         if (rmv !== null && !isNull(rmv)) {

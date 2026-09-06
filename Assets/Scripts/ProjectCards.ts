@@ -8,12 +8,12 @@ import { AICard } from "./PatternAI";
 import { buildSpecFromCard } from "./BlockRegistry";
 import { PatternSpec } from "./PatternTypes";
 import { buildRibbonMesh } from "./LineMesh";
-import { makePlate, makeLabel, makeTappable, makeSticker, resetLocal } from "./UiLite";
+import { makePlate, makeLabel, makeTappable, makeSticker, resetLocal, safeDestroy } from "./UiLite";
 import { t } from "./I18n";
 
-const CARD_W = 20;
-const CARD_H = 25;
-const SPACING = 24;
+const CARD_W = 14;
+const CARD_H = 18;
+const SPACING = 17;
 
 @component
 export class ProjectCards extends BaseScriptComponent {
@@ -67,7 +67,7 @@ export class ProjectCards extends BaseScriptComponent {
 
   private rebuild() {
     if (this.root !== null && !isNull(this.root)) {
-      this.root.destroy();
+      safeDestroy(this.root);
     }
     this.root = global.scene.createSceneObject("cardsRoot");
     this.root.setParent(this.sceneObject);
@@ -215,7 +215,7 @@ export class ProjectCards extends BaseScriptComponent {
     });
 
     cutBtn.getTransform().setLocalPosition(new vec3(cutX, btnY, 0.3));
-    const cutLabel = makeLabel(cutBtn, t("toFabric"), framed ? 1.15 : 1.25, new vec3(0, 0, 0.2), framed ? NAVY : undefined);
+    const cutLabel = makeLabel(cutBtn, t("previewFit"), framed ? 1.15 : 1.25, new vec3(0, 0, 0.2), framed ? NAVY : undefined);
     const cutInt = makeTappable(cutBtn, btnW, btnH, () => {
       this.centered = index;
       this.targetOffset = index * SPACING;

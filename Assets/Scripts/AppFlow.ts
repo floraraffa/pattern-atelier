@@ -9,10 +9,12 @@ import { PromptButton } from "./PromptButton";
 import { Mascot } from "./Mascot";
 import { PatternAI, AICard } from "./PatternAI";
 import { PatternRenderer } from "./PatternRenderer";
+import { FitPreview } from "./FitPreview";
 import { buildSpecFromCard } from "./BlockRegistry";
 import { saveProject, loadProject, ProjectData } from "./PatternStore";
 import { LANGS, GARMENT_KEYS, setLang, getLangDef, t, garmentName, stepNames } from "./I18n";
 import { ProgressSteps } from "./ProgressSteps";
+import { BackNav } from "./BackNav";
 
 // Talles XXS→4XL por género: busto/pecho, cintura, cadera (cm, punto medio
 // de los rangos de las cards de Flor)
@@ -48,11 +50,17 @@ export class AppFlow extends BaseScriptComponent {
   @input
   @allowUndefined
   progress: ProgressSteps;
+  @input
+  @allowUndefined
+  backNav: BackNav;
   @input cards: ProjectCards;
   @input promptBtn: PromptButton;
   @input mascot: Mascot;
   @input ai: PatternAI;
   @input renderer: PatternRenderer;
+  @input
+  @allowUndefined
+  fitPreview: FitPreview;
   @input demoSeed: boolean = false;
   @input
   @allowUndefined
@@ -120,7 +128,7 @@ export class AppFlow extends BaseScriptComponent {
       }
     };
     this.cards.onModify = (i) => this.enterModify(i);
-    this.cards.onToCut = (i) => this.sendToFabric(i);
+    this.cards.onToCut = (i) => this.enterFitPreview(i);
     this.cards.onBack = () => this.enterMenu();
     this.promptBtn.onPrompt = (text) => this.onPrompt(text);
     this.ai.onStatus = (msg, isError) => {
@@ -133,7 +141,18 @@ export class AppFlow extends BaseScriptComponent {
     if (this.progress !== undefined && !isNull(this.progress)) {
       this.progress.onStepTapped = (i) => this.jumpToStep(i);
     }
+    if (this.backNav !== undefined && !isNull(this.backNav)) {
+      this.backNav.onBack = () => this.goBack();
+    }
     this.ai.onCardModified = (card, explica) => this.onCardModified(card, explica);
+    if (this.fitPreview !== undefined && !isNull(this.fitPreview)) {
+      this.fitPreview.onCut = () => {
+        if (this.lastCutIndex >= 0) {
+          this.sendToFabric(this.lastCutIndex);
+        }
+      };
+      this.fitPreview.onBack = () => this.enterCards(t("mCards"));
+    }
 
     if (this.demoSeed) {
       // Proyecto de muestra para recorrer todas las pantallas sin AI
@@ -171,10 +190,45 @@ export class AppFlow extends BaseScriptComponent {
         this.enterCards(t("mCards"));
       }
     } else if (index === 5) {
+      if (this.projectCards.length > 0) {
+        const idx = this.lastCutIndex >= 0 ? this.lastCutIndex : 0;
+        this.enterFitPreview(idx);
+      }
+    } else if (index === 6) {
       if (this.lastCutIndex >= 0 && this.lastCutIndex < this.projectCards.length) {
         this.sendToFabric(this.lastCutIndex);
       }
     }
+  }
+
+  // Un paso atrás en el flujo (botón TR del tablero)
+  private goBack() {
+    if (this.state === "MENU") {
+      this.enterLang();
+    } else if (this.state === "GENDER") {
+      this.enterMenu();
+    } else if (this.state === "SIZE") {
+      this.enterGender();
+    } else if (this.state === "STYLE") {
+      this.enterSize();
+    } else if (this.state === "CARDS") {
+      this.enterStyle();
+    } else if (this.state === "MODIFY") {
+      this.enterCards(t("mCards"));
+    } else if (this.state === "FIT") {
+      this.enterCards(t("mCards"));
+    } else if (this.state === "CUT") {
+      const idx = this.lastCutIndex >= 0 ? this.lastCutIndex : 0;
+      this.enterFitPreview(idx);
+    }
+  }
+
+  private syncBackNav() {
+    if (this.backNav === undefined || isNull(this.backNav)) {
+      return;
+    }
+    // En el primer paso no hay «atrás»
+    this.backNav.setVisible(this.state !== "LANG");
   }
 
   // ---- Estados ----
@@ -193,6 +247,7 @@ export class AppFlow extends BaseScriptComponent {
     this.setLogoScale(1);
     this.setVisible(true, false, false, false);
     this.setStep(0);
+    this.syncBackNav();
     this.langCarousel.setHeader(t("chooseLang"), t("atelierSpeak"));
     this.langCarousel.setConfirmLabel(t("continueBtn"));
     const texs = this.langCardTextures;
@@ -217,6 +272,7 @@ export class AppFlow extends BaseScriptComponent {
     this.setLogoScale(1);
     this.setVisible(false, true, false, false);
     this.setStep(1);
+    this.syncBackNav();
     this.garmentCarousel.setHeader(t("menuTitle"), "");
     this.garmentCarousel.setConfirmLabel(t("continueBtn"));
     const gtexs = this.garmentCardTextures;
@@ -242,6 +298,7 @@ export class AppFlow extends BaseScriptComponent {
     this.setVisible(false, false, false, false);
     this.sizeCarousel.getSceneObject().enabled = true;
     this.setStep(2);
+    this.syncBackNav();
     this.sizeCarousel.setShowCenteredTitle(true);
     this.sizeCarousel.setHeader(t("mGender"), "");
     this.sizeCarousel.setConfirmLabel(t("continueBtn"));
@@ -268,6 +325,7 @@ export class AppFlow extends BaseScriptComponent {
     this.setLogoScale(1);
     this.setStep(2);
     this.setVisible(false, false, false, false);
+    this.syncBackNav();
     this.sizeCarousel.getSceneObject().enabled = true;
     this.sizeCarousel.setShowCenteredTitle(false);
     const texs = this.genderIdx === 0 ? this.sizeCardTexturesF : this.sizeCardTexturesM;
@@ -297,6 +355,7 @@ export class AppFlow extends BaseScriptComponent {
     this.setStep(3);
     this.setLogoScale(1.35);
     this.setVisible(false, false, false, true);
+    this.syncBackNav();
     this.promptBtn.configure(t("tellStyle"), t("typeHint"), []);
     this.mascot.speak(t("mStyle"));
   }
@@ -311,6 +370,7 @@ export class AppFlow extends BaseScriptComponent {
     this.setLogoScale(1);
     this.setStep(4);
     this.setVisible(false, false, true, false);
+    this.syncBackNav();
     this.cards.show(this.projectCards, -1);
     this.mascot.say(mascotMsg);
   }
@@ -319,19 +379,60 @@ export class AppFlow extends BaseScriptComponent {
     this.state = "MODIFY";
     this.modifyIndex = index;
     this.setVisible(false, false, true, true);
+    this.syncBackNav();
     this.promptBtn.configure(t("sayChange"), t("typeHint"), []);
     this.mascot.speak(t("mModify"));
   }
 
+  private enterFitPreview(index: number) {
+    this.lastCutIndex = index;
+    this.state = "FIT";
+    this.setLogoScale(1);
+    this.setVisible(false, false, false, false, true);
+    this.setStep(5);
+    this.syncBackNav();
+    if (this.fitPreview === undefined || isNull(this.fitPreview)) {
+      print("AppFlow: fitPreview no cableado — agregá FitPreviewPanel en UIRoot");
+      this.mascot.speak(t("fitError"));
+      return;
+    }
+    this.fitPreview.showLoading();
+    this.mascot.setThinking(true);
+    this.mascot.say(t("fitWorking"));
+    const context = JSON.stringify({
+      garment: this.garmentLabel,
+      garmentKey: this.garment,
+      measurements: this.measurements,
+      style: this.stylePrompt,
+      cards: this.projectCards
+    });
+    this.ai.generateFitPreview(context, (fitPhrase, texture) => {
+      this.mascot.setThinking(false);
+      this.mascot.setMood("happy");
+      if (texture !== null && !isNull(texture)) {
+        this.fitPreview.showResult(texture, fitPhrase);
+      } else {
+        this.fitPreview.showTextOnly(fitPhrase, true);
+      }
+      this.mascot.speak(fitPhrase);
+    });
+  }
+
   private sendToFabric(index: number) {
     this.lastCutIndex = index;
+    this.state = "CUT";
     const card = this.projectCards[index];
     const spec = buildSpecFromCard(card);
     if (spec === null) {
       return;
     }
     this.renderer.renderPattern(spec);
-    this.setStep(5);
+    this.setStep(6);
+    this.syncBackNav();
+    if (this.fitPreview !== undefined && !isNull(this.fitPreview)) {
+      this.fitPreview.hide();
+    }
+    this.setVisible(false, false, false, false, false);
     this.mascot.setMood("wink");
     // Guía de corte paso a paso, generada por la AI y hablada por Nube
     const foldInfo = spec.pieces.map((p) => ({ name: p.name, cutOnFold: p.cutOnFold === true, doubleFabric: p.doubleFabric === true }));
@@ -392,11 +493,16 @@ export class AppFlow extends BaseScriptComponent {
     saveProject(data);
   }
 
-  private setVisible(langOn: boolean, menuOn: boolean, cardsOn: boolean, promptOn: boolean) {
+  private setVisible(langOn: boolean, menuOn: boolean, cardsOn: boolean, promptOn: boolean, fitOn: boolean = false) {
     this.langCarousel.getSceneObject().enabled = langOn;
     this.garmentCarousel.getSceneObject().enabled = menuOn;
     this.sizeCarousel.getSceneObject().enabled = false;
     this.cards.getSceneObject().enabled = cardsOn;
     this.promptBtn.getSceneObject().enabled = promptOn;
+    if (this.fitPreview !== undefined && !isNull(this.fitPreview)) {
+      if (!fitOn) {
+        this.fitPreview.hide();
+      }
+    }
   }
 }

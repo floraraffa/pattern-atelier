@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Assets/UI/ui_logo.png" alt="Pattern Atelier" width="380">
+</p>
+
 # Pattern Atelier ☁🧵
 
 **AI-powered sewing pattern maker for Snap Spectacles** — built for the CLAD Summer Hackathon, Week 4: *Create*.

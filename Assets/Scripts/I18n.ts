@@ -9,17 +9,18 @@ export interface LangDef {
   aiName: string; // cómo pedirle el idioma a la AI/TTS en inglés
 }
 
+// Orden del carrusel: importancia global (inglés primero)
 export const LANGS: LangDef[] = [
-  { code: "es", native: "Español", aiName: "Spanish (Rioplatense)" },
   { code: "en", native: "English", aiName: "English" },
+  { code: "es", native: "Español", aiName: "Spanish (Rioplatense)" },
+  { code: "zh", native: "中文", aiName: "Chinese (Mandarin)" },
   { code: "pt", native: "Português", aiName: "Portuguese" },
   { code: "fr", native: "Français", aiName: "French" },
-  { code: "it", native: "Italiano", aiName: "Italian" },
-  { code: "de", native: "Deutsch", aiName: "German" },
-  { code: "ru", native: "Русский", aiName: "Russian" },
-  { code: "zh", native: "中文", aiName: "Chinese (Mandarin)" },
-  { code: "ja", native: "日本語", aiName: "Japanese" },
   { code: "ar", native: "العربية", aiName: "Arabic" },
+  { code: "ru", native: "Русский", aiName: "Russian" },
+  { code: "ja", native: "日本語", aiName: "Japanese" },
+  { code: "de", native: "Deutsch", aiName: "German" },
+  { code: "it", native: "Italiano", aiName: "Italian" },
   { code: "fa", native: "فارسی", aiName: "Persian (Farsi)" }
 ];
 
@@ -70,7 +71,7 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
     working: "Creando tus moldes…",
     mIntroMenu: "¡Hola! Soy Nube ☁ Deslizá con los dedos y elegí qué prenda querés crear.",
     mStyle: "¡Buena elección! Tocá el botón y contame cómo la querés: estilo, largo, medidas…",
-    mCards: "Tocá \"Modificar\" para ajustar un molde, o \"A la tela\" para cortarlo.",
+    mCards: "Tocá \"Modificar\" para ajustar un molde, o \"Ver terminada\" para ver cómo quedaría cosida.",
     mModify: "Decime qué cambiamos de este molde.",
     mError: "Uy, algo falló. Probá de nuevo en un ratito.",
     mGender: "¿Para quién es la prenda?",
@@ -85,7 +86,15 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
     cutLine: "✂ CORTAR por la línea amarilla",
     sewLine: "— línea de costura (margen {0} cm)",
     onFold: "AL DOBLEZ",
-    doubleFabric: "×2 · DOBLE TELA"
+    doubleFabric: "×2 · DOBLE TELA",
+    previewFit: "Ver terminada ▸",
+    fitTitle: "Prenda terminada",
+    fitWorking: "Imaginando cómo va a quedar…",
+    fitDefault: "Quedaría elegante y cómoda en tu talle.",
+    fitError: "No pude generar la vista previa. Probá de nuevo.",
+    fitNoImage: "(No pudimos generar la ilustración — probá de nuevo)",
+    backPatterns: "‹ Moldes",
+    mFitIntro: "Imaginando cómo quedaría cosida…"
   },
   en: {
     menuTitle: "What do you want to create?",
@@ -116,7 +125,7 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
     working: "Drafting your patterns…",
     mIntroMenu: "Hi! I'm Cloud ☁ Swipe with your fingers and pick a garment to create.",
     mStyle: "Great choice! Tap the button and tell me how you want it: style, length, measurements…",
-    mCards: "Tap \"Modify\" to adjust a pattern, or \"To fabric\" to cut it.",
+    mCards: "Tap \"Modify\" to adjust a pattern, or \"Preview fit\" to see the finished garment.",
     mModify: "Tell me what to change on this pattern.",
     mError: "Oops, something failed. Try again in a moment.",
     mGender: "Who is the garment for?",
@@ -131,7 +140,15 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
     cutLine: "✂ CUT along the yellow line",
     sewLine: "— sewing line ({0} cm allowance)",
     onFold: "ON FOLD",
-    doubleFabric: "×2 · DOUBLE LAYER"
+    doubleFabric: "×2 · DOUBLE LAYER",
+    previewFit: "Preview fit ▸",
+    fitTitle: "Finished garment",
+    fitWorking: "Imagining how it will fit…",
+    fitDefault: "It would look elegant and comfortable in your size.",
+    fitError: "Couldn't generate the preview. Try again in a moment.",
+    fitNoImage: "(Couldn't generate the illustration — try again)",
+    backPatterns: "‹ Patterns",
+    mFitIntro: "Imagining the finished look…"
   },
   pt: {
     menuTitle: "O que você quer criar?",
@@ -551,24 +568,24 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
 
 // Pasos del flujo (botonera de progreso)
 const STEPS: { [lang: string]: string[] } = {
-  es: ["IDIOMA", "PRENDA", "TALLE", "ESTILO", "MOLDES", "CORTE"],
-  en: ["LANGUAGE", "GARMENT", "SIZE", "STYLE", "PATTERNS", "CUT"],
-  pt: ["IDIOMA", "PEÇA", "TAMANHO", "ESTILO", "MOLDES", "CORTE"],
-  fr: ["LANGUE", "VÊTEMENT", "TAILLE", "STYLE", "PATRONS", "COUPE"],
-  it: ["LINGUA", "CAPO", "TAGLIA", "STILE", "CARTAMODELLI", "TAGLIO"],
-  de: ["SPRACHE", "KLEIDUNG", "GRÖSSE", "STIL", "SCHNITTE", "ZUSCHNITT"],
-  ru: ["ЯЗЫК", "ОДЕЖДА", "РАЗМЕР", "СТИЛЬ", "ВЫКРОЙКИ", "РАСКРОЙ"],
-  zh: ["语言", "服装", "尺码", "款式", "纸样", "裁剪"],
-  ja: ["言語", "服", "サイズ", "スタイル", "型紙", "裁断"],
-  ar: ["اللغة", "الملابس", "المقاس", "الستايل", "الباترونات", "القص"],
-  fa: ["زبان", "لباس", "سایز", "استایل", "الگوها", "برش"]
+  es: ["IDIOMA", "PRENDA", "TALLE", "ESTILO", "MOLDES", "TERMINADA", "CORTE"],
+  en: ["LANGUAGE", "GARMENT", "SIZE", "STYLE", "PATTERNS", "FINISHED", "CUT"],
+  pt: ["IDIOMA", "PEÇA", "TAMANHO", "ESTILO", "MOLDES", "FINAL", "CORTE"],
+  fr: ["LANGUE", "VÊTEMENT", "TAILLE", "STYLE", "PATRONS", "FINI", "COUPE"],
+  it: ["LINGUA", "CAPO", "TAGLIA", "STILE", "CARTAMODELLI", "FINITO", "TAGLIO"],
+  de: ["SPRACHE", "KLEIDUNG", "GRÖSSE", "STIL", "SCHNITTE", "FERTIG", "ZUSCHNITT"],
+  ru: ["ЯЗЫК", "ОДЕЖДА", "РАЗМЕР", "СТИЛЬ", "ВЫКРОЙКИ", "ГОТОВО", "РАСКРОЙ"],
+  zh: ["语言", "服装", "尺码", "款式", "纸样", "成品", "裁剪"],
+  ja: ["言語", "服", "サイズ", "スタイル", "型紙", "完成", "裁断"],
+  ar: ["اللغة", "الملابس", "المقاس", "الستايل", "الباترونات", "نهائي", "القص"],
+  fa: ["زبان", "لباس", "سایز", "استایل", "الگوها", "تمام", "برش"]
 };
 
 export function stepNames(): string[] {
   return STEPS[currentLang] !== undefined ? STEPS[currentLang] : STEPS["es"];
 }
 
-let currentLang: string = "es";
+let currentLang: string = "en";
 
 export function setLang(code: string) {
   if (STRINGS[code] !== undefined) {

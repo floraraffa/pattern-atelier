@@ -1,8 +1,8 @@
 studioVersion:
   major: 5
   minor: 23
-  patch: 1
-  build: 26080420
+  patch: 2
+  build: 26081320
   type: Public
 coreVersion: 372
 clientVersion: 14.16
@@ -44,7 +44,7 @@ metaInfo:
     minor: 0
     patch: 0
     build: 0
-  documentId: 0423620d-fc5d-42aa-9779-5752d958eda5
+  documentId: 6ec307f0-3414-410e-919f-a0cc20e64316
   originalDocumentId: 4492aa5f-47e4-4abe-9643-7d6f708b0869
   packageId: ""
   packageVersion: ""

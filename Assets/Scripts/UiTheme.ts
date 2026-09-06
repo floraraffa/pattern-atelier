@@ -7,6 +7,7 @@
 //  caracteres, si no van a verse cuadraditos.)
 
 import { setUiFont } from "./UiLite";
+import { DestroyHelper } from "./DestroyHelper";
 
 @component
 export class UiTheme extends BaseScriptComponent {
@@ -15,6 +16,7 @@ export class UiTheme extends BaseScriptComponent {
   font: Font;
 
   onAwake() {
+    DestroyHelper.ensurePump(this);
     if (this.font !== undefined && !isNull(this.font)) {
       setUiFont(this.font);
     }

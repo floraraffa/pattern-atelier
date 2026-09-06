@@ -3,6 +3,12 @@
 
 import { Interactable } from "SpectaclesInteractionKit.lspkg/Components/Interaction/Interactable/Interactable";
 import { buildQuadMesh, buildTexturedQuadMesh } from "./LineMesh";
+import { DestroyHelper } from "./DestroyHelper";
+
+/** Deshabilita y destruye en el próximo LateUpdate (seguro para SIK). */
+export function safeDestroy(root: SceneObject | null) {
+  DestroyHelper.schedule(root);
+}
 
 // Sticker: quad con textura (respeta el aspecto de la imagen). El material
 // base se clona para que cada sticker tenga su propia textura.
@@ -79,7 +85,8 @@ export function makeLabel(parent: SceneObject, value: string, sizeCm: number, lo
 export function makeTappable(obj: SceneObject, w: number, h: number, onTap: () => void): Interactable {
   const collider = obj.createComponent("Physics.ColliderComponent") as ColliderComponent;
   const shape = Shape.createBoxShape();
-  shape.size = new vec3(w, h, 2);
+  // Grosor en Z generoso: rayos SIK atraviesan mejor pantallas espaciales
+  shape.size = new vec3(w, h, 4);
   collider.shape = shape;
   const interactable = obj.createComponent(Interactable.getTypeName()) as Interactable;
   interactable.onTriggerEnd.add(() => onTap());

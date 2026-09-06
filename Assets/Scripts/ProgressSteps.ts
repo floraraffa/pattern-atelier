@@ -2,7 +2,7 @@
 // costura unidos por línea punteada, con el paso activo en celeste y su
 // etiqueta abajo, en el idioma elegido.
 
-import { makeLabel, makeSticker, makeTappable, resetLocal, makePlate } from "./UiLite";
+import { makeLabel, makeSticker, makeTappable, resetLocal, makePlate, safeDestroy } from "./UiLite";
 import { buildQuadMesh } from "./LineMesh";
 
 const GOLD = new vec4(0.98, 0.76, 0.16, 1);
@@ -14,15 +14,15 @@ export class ProgressSteps extends BaseScriptComponent {
   @input buttonTexture: Texture; // botón beige (paso pendiente)
   @input buttonActiveTexture: Texture; // botón celeste (paso actual)
   @input dashMaterial: Material; // guiones amarillos entre botones
-  @input stepSpacing: number = 9.5;
-  @input buttonSize: number = 4.2;
+  @input stepSpacing: number = 7.2;
+  @input buttonSize: number = 3.8;
 
   private root: SceneObject | null = null;
   public onStepTapped: ((index: number) => void) | null = null;
 
   setSteps(labels: string[], active: number) {
     if (this.root !== null && !isNull(this.root)) {
-      this.root.destroy();
+      safeDestroy(this.root);
     }
     this.root = global.scene.createSceneObject("steps");
     this.root.setParent(this.sceneObject);
@@ -44,9 +44,9 @@ export class ProgressSteps extends BaseScriptComponent {
       });
       // Dorado y "bold" (doble trazo con leve offset)
       const col = i === active ? GOLD_ACTIVE : GOLD;
-      const sz = i === active ? 1.35 : 1.2;
-      makeLabel(this.root, labels[i], sz, new vec3(x, -3.2, 0.2), col);
-      makeLabel(this.root, labels[i], sz, new vec3(x + 0.07, -3.2, 0.19), col);
+      const sz = i === active ? 1.15 : 1.0;
+      makeLabel(this.root, labels[i], sz, new vec3(x, -2.9, 0.2), col);
+      makeLabel(this.root, labels[i], sz, new vec3(x + 0.06, -2.9, 0.19), col);
 
       // Guiones hacia el siguiente botón
       if (i < n - 1) {

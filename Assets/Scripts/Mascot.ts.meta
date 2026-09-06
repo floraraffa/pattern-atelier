@@ -76,7 +76,7 @@
       closeMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
       texCloseBtn: !<reference.Texture> 00000000-0000-0000-0000-000000000000
       texQuestionBtn: !<reference.Texture> 00000000-0000-0000-0000-000000000000
-      cloudSizeCm: !<float> 20.000000
+      cloudSizeCm: !<float> 10.000000
       faceX: !<float> 0.000000
       faceY: !<float> 0.000000
       faceRotDeg: !<float> 0.000000

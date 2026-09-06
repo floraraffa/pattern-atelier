@@ -24,12 +24,3 @@ Workspaces/**
 .codex/config.toml
 .claude/settings.local.json
 # END Lens Studio managed Agents-Docs block
-
-# Lens Studio: generados localmente, no versionar
-Cache/
-Workspaces/
-PluginsUserPreferences/
-Support/
-*.lock
-.DS_Store
-.virtual-scene.json

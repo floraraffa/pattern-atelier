@@ -1,20 +1,20 @@
-- !<AssetImportMetadata/d9120973-9d04-4baf-8e97-910737495164>
+- !<AssetImportMetadata/be49ecae-b330-4570-b500-7bb9c941bb3d>
   ImportedAssetIds:
-    TypeScriptAsset: !<reference> 814d7419-022c-4d2c-9499-313724a10f5a
+    TypeScriptAsset: !<reference> 26d2b858-e644-494b-b724-9f2eda0a4afb
   ImporterName: TypeScriptAssetImporter
-  PrimaryAsset: !<reference> 814d7419-022c-4d2c-9499-313724a10f5a
+  PrimaryAsset: !<reference> 26d2b858-e644-494b-b724-9f2eda0a4afb
   PackageType: NotAPackage
   LegacyPackagePolicy: ~
   ExtraData:
     {}
   AssetDataMap:
-    TypeScriptAsset: !<own> 734338d9-5b32-4e67-aee0-73d30ebdd4e7
+    TypeScriptAsset: !<own> 29a976e6-aea6-4e97-8c7a-9649b6112ad8
   DependentFiles:
     []
   ImporterSettings: !<AssetImporterSettings>
     {}
   CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
-- !<TypeScriptAssetData/734338d9-5b32-4e67-aee0-73d30ebdd4e7>
+- !<TypeScriptAssetData/29a976e6-aea6-4e97-8c7a-9649b6112ad8>
   SvgIcon: ""
   SetupScript:
     code: ""
@@ -24,15 +24,14 @@
   VersionPatch: 0
   VersionPrerelease: ""
   UpdateOrder: 0
-  ComponentUid: e0286d25-2733-419c-9205-0690879405ce
+  ComponentUid: 4331f400-0cfc-479c-bb55-2ee425c0e620
   ExportUid: 00000000-0000-0000-0000-000000000000
   PackagePolicy: CanBeUnpacked
   ScriptInputsHidden:
-    buttonActiveTexture: false
+    backTexture: false
     buttonSize: false
-    buttonTexture: false
-    dashMaterial: false
-    stepSpacing: false
+    offsetX: false
+    offsetY: false
     stickerMaterial: false
   ScriptTypesHidden:
     {}
@@ -44,18 +43,16 @@
     []
   DefaultScriptInputs:
     - stickerMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
-      buttonTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
-      buttonActiveTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
-      dashMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
-      stepSpacing: 9.500000
+      backTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
       buttonSize: 4.200000
+      offsetX: !<float> 0.000000
+      offsetY: !<float> 0.000000
   ScriptTypes:
     -
       {}
   InputLines:
     - // @input Asset.Material stickerMaterial
-    - // @input Asset.Texture buttonTexture
-    - // @input Asset.Texture buttonActiveTexture
-    - // @input Asset.Material dashMaterial
-    - // @input float stepSpacing = 7.2
-    - // @input float buttonSize = 3.8
+    - // @input Asset.Texture backTexture
+    - // @input float buttonSize = 4.2
+    - // @input float offsetX
+    - // @input float offsetY

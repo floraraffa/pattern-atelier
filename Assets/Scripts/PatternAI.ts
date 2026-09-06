@@ -8,7 +8,14 @@
 import { OpenAI } from "RemoteServiceGateway.lspkg/HostedExternal/OpenAI";
 import { Gemini } from "RemoteServiceGateway.lspkg/HostedExternal/Gemini";
 import { DeepSeek } from "RemoteServiceGateway.lspkg/HostedSnap/Deepseek";
+import { Imagen } from "RemoteServiceGateway.lspkg/HostedExternal/Imagen";
+import { GoogleGenAITypes } from "RemoteServiceGateway.lspkg/HostedExternal/GoogleGenAITypes";
+import { Snap3D } from "RemoteServiceGateway.lspkg/HostedSnap/Snap3D";
+import { Snap3DTypes } from "RemoteServiceGateway.lspkg/HostedSnap/Snap3DTypes";
 import { t, tf } from "./I18n";
+
+const BURDA_IMAGE_STYLE =
+  "Burda magazine fashion illustration, watercolor, clean lines, white background, no text. ";
 
 export interface AICard {
   block: string;
@@ -77,6 +84,9 @@ export class PatternAI extends BaseScriptComponent {
   @input providerOrder: string = "openai,gemini,deepseek";
 
   private busy: boolean = false;
+  private fitBusy: boolean = false;
+  private internetModule: InternetModule = require("LensStudio:InternetModule") as InternetModule;
+  private remoteMediaModule: RemoteMediaModule = require("LensStudio:RemoteMediaModule") as RemoteMediaModule;
   private languageName: string = "Spanish (Rioplatense)";
   public onCardsReady: ((cards: AICard[], explica: string) => void) | null = null;
   public onCardModified: ((card: AICard, explica: string) => void) | null = null;
@@ -92,7 +102,6 @@ export class PatternAI extends BaseScriptComponent {
     return this.busy;
   }
 
-  // Idioma de las respuestas ("Spanish (Rioplatense)", "Persian (Farsi)"...)
   setLanguage(aiName: string) {
     this.languageName = aiName;
   }
@@ -104,7 +113,6 @@ export class PatternAI extends BaseScriptComponent {
       "español si el idioma es otro).";
   }
 
-  // Guía de corte paso a paso, hablada por la mascota en el idioma elegido.
   generateCuttingGuide(cardJson: string, onDone: (text: string) => void) {
     const system =
       "Sos una profe de corte y confección muy didáctica, guiando dentro de unos anteojos de realidad " +
@@ -121,10 +129,239 @@ export class PatternAI extends BaseScriptComponent {
     this.callText(system, "Molde: " + cardJson, onDone);
   }
 
-  private callText(systemPrompt: string, userMsg: string, onDone: (text: string) => void) {
+  // Predice calce (frase corta) + ilustración Burda vía Imagen 3 (RSG).
+  generateFitPreview(contextJson: string, onDone: (fitPhrase: string, texture: Texture | null) => void) {
+    if (this.fitBusy) {
+      return;
+    }
+    this.fitBusy = true;
+    this.setStatus(t("fitWorking"), false);
+
+    let ctx: {
+      garment?: string;
+      style?: string;
+      cards?: AICard[];
+    } = {};
+    try {
+      ctx = JSON.parse(contextJson) as typeof ctx;
+    } catch (e) {
+      print("PatternAI: contexto fit inválido");
+    }
+
+    const imagePrompt = this.buildFitImagePrompt(ctx);
+    print("PatternAI: prompt imagen → " + imagePrompt.substring(0, 100));
+
+    let phraseDone = false;
+    let imageDone = false;
+    let fitPhrase = "";
+    let texture: Texture | null = null;
+
+    const finish = () => {
+      if (!phraseDone || !imageDone) {
+        return;
+      }
+      this.fitBusy = false;
+      if (fitPhrase === "") {
+        fitPhrase = t("fitDefault");
+      }
+      onDone(fitPhrase, texture);
+    };
+
+    const system =
+      "You are an expert fashion fit analyst. Given sewing pattern data (JSON), write ONE short warm " +
+      "phrase (max 12 words) about how the finished garment will look and fit on the body. " +
+      "Respond ONLY with valid JSON, no markdown:\n" +
+      '{"fitPhrase":"<one sentence in ' + this.languageName + '>"}';
+    this.callText(system, "Project: " + contextJson, (raw) => {
+      try {
+        const clean = this.extractJson(raw);
+        const parsed = JSON.parse(clean) as { fitPhrase?: string; fitAnalysis?: string };
+        fitPhrase = parsed.fitPhrase !== undefined ? parsed.fitPhrase.trim() : "";
+        if (fitPhrase === "" && parsed.fitAnalysis !== undefined) {
+          fitPhrase = parsed.fitAnalysis.split(".")[0].trim();
+        }
+      } catch (e) {
+        fitPhrase = raw.trim().substring(0, 80);
+      }
+      phraseDone = true;
+      finish();
+    }, () => {
+      phraseDone = true;
+      finish();
+    });
+
+    this.generatePreviewImage(imagePrompt, (tex) => {
+      texture = tex;
+      imageDone = true;
+      finish();
+    }, () => {
+      imageDone = true;
+      finish();
+    });
+  }
+
+  private buildFitImagePrompt(ctx: {
+    garment?: string;
+    style?: string;
+    cards?: AICard[];
+  }): string {
+    const garment = ctx.garment !== undefined ? ctx.garment : "garment";
+    const style = ctx.style !== undefined && ctx.style !== "" ? ctx.style : "classic";
+    let pieces = "";
+    if (ctx.cards !== undefined && ctx.cards.length > 0) {
+      pieces = ctx.cards.map((c) => c.name).join(", ");
+    }
+    return garment + ", " + style + (pieces !== "" ? ". Pieces: " + pieces : "");
+  }
+
+  private generatePreviewImage(prompt: string, onOk: (texture: Texture) => void, onFail: () => void) {
+    const fullPrompt = BURDA_IMAGE_STYLE + prompt;
+    print("PatternAI: generando ilustración…");
+    // Snap3D image artifact: funciona en RSG con token SNAP (mismo gateway que el chat).
+    this.trySnap3DImage(fullPrompt, onOk, () => {
+      print("PatternAI: Snap3D sin imagen, probando gpt-image-1…");
+      this.tryOpenAIImage(fullPrompt, onOk, () => {
+        print("PatternAI: gpt-image-1 falló, probando Imagen 3…");
+        this.tryImagen3(fullPrompt, onOk, onFail);
+      });
+    });
+  }
+
+  private trySnap3DImage(prompt: string, onOk: (texture: Texture) => void, onFail: () => void) {
+    print("PatternAI: Snap3D.submitAndGetStatus…");
+    let settled = false;
+    const finish = (texture: Texture | null) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (texture !== null && !isNull(texture)) {
+        print("PatternAI: ilustración lista vía Snap3D");
+        onOk(texture);
+      } else {
+        onFail();
+      }
+    };
+    const timeout = this.createEvent("DelayedCallbackEvent");
+    timeout.bind(() => {
+      print("PatternAI: Snap3D timeout");
+      finish(null);
+    });
+    timeout.reset(120);
+
+    Snap3D.submitAndGetStatus({
+      prompt: prompt,
+      format: "glb",
+      refine: false,
+      use_vertex_color: false
+    })
+      .then((result) => {
+        result.event.add(([artifactType, assetOrError]) => {
+          if (artifactType === "image") {
+            finish((assetOrError as Snap3DTypes.TextureAssetData).texture);
+          } else if (artifactType === "failed") {
+            const err = assetOrError as Snap3DTypes.ErrorData;
+            print("PatternAI: Snap3D error: " + err.errorMsg);
+            finish(null);
+          }
+        });
+      })
+      .catch((err) => {
+        print("PatternAI: Snap3D submit error: " + err);
+        finish(null);
+      });
+  }
+
+  private tryImagen3(fullPrompt: string, onOk: (texture: Texture) => void, onFail: () => void) {
+    const request: GoogleGenAITypes.Imagen.ImagenRequest = {
+      model: "imagen-3.0-generate-002",
+      body: {
+        parameters: {
+          sampleCount: 1,
+          addWatermark: false,
+          aspectRatio: "3:4",
+          enhancePrompt: true,
+          language: "en",
+          personGeneration: "allow_adult",
+          seed: 0
+        },
+        instances: [{ prompt: fullPrompt }]
+      }
+    };
+    Imagen.generateImage(request)
+      .then((response) => {
+        if (response.predictions === undefined || response.predictions.length === 0) {
+          onFail();
+          return;
+        }
+        print("PatternAI: ilustración lista vía Imagen 3");
+        this.decodeB64Texture(response.predictions[0].bytesBase64Encoded, onOk, onFail);
+      })
+      .catch((err) => {
+        print("PatternAI: Imagen 3 error: " + err);
+        onFail();
+      });
+  }
+
+  // RSG OpenAI proxy: solo gpt-image-1 (DALL-E no está disponible). Sin response_format.
+  private tryOpenAIImage(fullPrompt: string, onOk: (texture: Texture) => void, onFail: () => void) {
+    print("PatternAI: OpenAI.imagesGenerate → gpt-image-1");
+    OpenAI.imagesGenerate({
+      model: "gpt-image-1",
+      prompt: fullPrompt,
+      n: 1,
+      size: "1024x1536",
+      quality: "medium"
+    })
+      .then((response) => {
+        if (response.data === undefined || response.data.length === 0) {
+          onFail();
+          return;
+        }
+        const datum = response.data[0];
+        if (datum.b64_json !== undefined && datum.b64_json !== "") {
+          print("PatternAI: ilustración lista vía gpt-image-1 (b64)");
+          this.decodeB64Texture(datum.b64_json, onOk, onFail);
+          return;
+        }
+        if (datum.url !== undefined && datum.url !== "") {
+          print("PatternAI: ilustración lista vía gpt-image-1 (url)");
+          this.loadTextureFromUrl(datum.url, onOk, onFail);
+          return;
+        }
+        onFail();
+      })
+      .catch((err) => {
+        print("PatternAI: gpt-image-1 error: " + err);
+        onFail();
+      });
+  }
+
+  private decodeB64Texture(b64: string, onOk: (texture: Texture) => void, onFail: () => void) {
+    Base64.decodeTextureAsync(b64, onOk, onFail);
+  }
+
+  private loadTextureFromUrl(url: string, onOk: (texture: Texture) => void, onFail: () => void) {
+    const httpRequest = RemoteServiceHttpRequest.create();
+    httpRequest.url = url;
+    this.internetModule.performHttpRequest(httpRequest, (response) => {
+      if (response.statusCode !== 200) {
+        print("PatternAI: HTTP image download failed: " + response.statusCode);
+        onFail();
+        return;
+      }
+      const resource = response.asResource();
+      this.remoteMediaModule.loadResourceAsImageTexture(resource, onOk, () => onFail());
+    });
+  }
+
+  private callText(systemPrompt: string, userMsg: string, onDone: (text: string) => void, onFail?: () => void) {
     const providers = this.providerList();
     const tryIdx = (idx: number) => {
       if (idx >= providers.length) {
+        if (onFail !== undefined) {
+          onFail();
+        }
         return;
       }
       this.callProvider(providers[idx], systemPrompt, userMsg)

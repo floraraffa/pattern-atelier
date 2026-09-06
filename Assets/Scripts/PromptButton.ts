@@ -22,9 +22,9 @@ export class PromptButton extends BaseScriptComponent {
   @input
   @allowUndefined
   boardTexture: Texture;
-  @input barWidth: number = 46;
-  @input boardWidth: number = 34;
-  @input boardY: number = 21; // altura del tablero sobre la barra
+  @input barWidth: number = 42;
+  @input boardWidth: number = 48;
+  @input boardY: number = 33; // altura del tablero sobre la barra (barra abajo de features)
 
   public onPrompt: ((text: string) => void) | null = null;
 
@@ -52,7 +52,7 @@ export class PromptButton extends BaseScriptComponent {
       const bar = makeSticker(this.sceneObject, "promptBar", this.stickerMaterial, this.barTexture, this.barWidth);
       const barH = this.barWidth * this.barTexture.getHeight() / this.barTexture.getWidth();
       // El texto va dentro del campo punteado del centro (chico, para que entre el pedido)
-      this.buttonText = makeLabel(bar, "", 0.95, new vec3(-this.barWidth * 0.06, 0, 0.3), new vec4(0.13, 0.17, 0.32, 1));
+      this.buttonText = makeLabel(bar, "", 0.85, new vec3(-this.barWidth * 0.06, 0, 0.3), new vec4(0.13, 0.17, 0.32, 1));
       this.statusText = this.buttonText;
       makeTappable(this.sceneObject, this.barWidth, barH + 1, () => this.onTap());
       // Botón de MIC (el círculo azul del arte): dictado por voz

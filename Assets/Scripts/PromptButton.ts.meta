@@ -68,6 +68,6 @@
     - // @input Asset.Material stickerMaterial
     - // @input Asset.Texture barTexture
     - // @input Asset.Texture boardTexture
-    - // @input float barWidth = 46
-    - // @input float boardWidth = 34
-    - // @input float boardY = 21
+    - // @input float barWidth = 42
+    - // @input float boardWidth = 48
+    - // @input float boardY = 33

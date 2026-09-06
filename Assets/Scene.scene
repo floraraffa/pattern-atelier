@@ -595,6 +595,21 @@
     []
   Components:
     []
+- !<SceneObject/1f523cae-8be9-4588-ab48-277e72aa29b2>
+  PrefabRemaps:
+    []
+  Name: FitPreviewPanel
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 822d67e8-afb4-4a7d-9f1c-bbc92de13c84
 - !<RenderMeshVisual/1f969daa-5809-4500-b314-98d91ccba131>
   PrefabRemaps:
     []
@@ -746,6 +761,9 @@
   Enabled: true
   ScriptAsset: !<reference> dcc6d7ee-aa94-4107-9001-57add6aaf83d
   ScriptInputsDefault:
+    widthCm: true
+    offsetX: true
+    offsetY: true
     rotationDeg: true
   ScriptTypesDefault:
     {}
@@ -753,9 +771,9 @@
     "":
       texture: !<reference.Texture> 0dc12a43-1cb9-4b6e-9660-783f12f452cf
       baseMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
-      widthCm: !<float> 27.000000
-      offsetX: !<float> -3.000000
-      offsetY: !<float> -2.000000
+      widthCm: !<float> 20.000000
+      offsetX: !<float> 0.000000
+      offsetY: !<float> 0.000000
       rotationDeg: !<float> 0.000000
   ScriptTypes:
     "":
@@ -957,24 +975,26 @@
       garmentCarousel: !<MappingBased.AssignableType_2> e1aba839-40ff-44cc-ab47-088d5b8cc423
       sizeCarousel: !<MappingBased.AssignableType_3> 7ffd7c36-1877-4332-b48a-07d3181d6632
       progress: !<MappingBased.AssignableType_4> bc2342fb-589d-4ac7-b549-1c970941469b
-      cards: !<MappingBased.AssignableType_5> 0fcb07a4-0783-486b-a1b8-dc16d9411298
-      promptBtn: !<MappingBased.AssignableType_6> 94ad0b5f-9b37-4b51-946e-4c961e500bf2
-      mascot: !<MappingBased.AssignableType_7> 92e6c163-fa5f-47d9-ac33-f59a14f11bdc
-      ai: !<MappingBased.AssignableType_8> f4d4a872-b471-42fd-a31c-9aa613e24344
-      renderer: !<MappingBased.AssignableType_9> 2f4c34df-c641-4da0-aea9-3c83077b1a30
+      backNav: !<MappingBased.AssignableType_5> c23579b4-edfd-408f-86ef-e33c9bd62b23
+      cards: !<MappingBased.AssignableType_6> 0fcb07a4-0783-486b-a1b8-dc16d9411298
+      promptBtn: !<MappingBased.AssignableType_7> 94ad0b5f-9b37-4b51-946e-4c961e500bf2
+      mascot: !<MappingBased.AssignableType_8> 92e6c163-fa5f-47d9-ac33-f59a14f11bdc
+      ai: !<MappingBased.AssignableType_9> f4d4a872-b471-42fd-a31c-9aa613e24344
+      renderer: !<MappingBased.AssignableType_10> 2f4c34df-c641-4da0-aea9-3c83077b1a30
+      fitPreview: !<MappingBased.AssignableType_11> 822d67e8-afb4-4a7d-9f1c-bbc92de13c84
       demoSeed: true
       logoObject: !<reference.SceneObject> e6bd1787-86a1-4f84-82be-f43e39c11584
       langCardTextures: !<reference.Texture[]>
-        - !<reference> f50fefb6-e8e1-4aa8-9578-291af3078f1b
         - !<reference> 4fc54442-b9bd-4148-ba32-68a79357a528
+        - !<reference> f50fefb6-e8e1-4aa8-9578-291af3078f1b
+        - !<reference> 4971a6eb-be98-47df-8c9e-b5301b8028b0
         - !<reference> a89390be-947c-4c78-ad96-31cc0c0d4239
         - !<reference> 46c657be-f235-44ab-85e5-594e9cea1e4f
-        - !<reference> 583456a9-5c9c-42e8-bd5b-39fa05702d2f
-        - !<reference> f49a7848-6e96-4e7c-a5cd-6179b74a4b2b
-        - !<reference> 08aa1ffb-c985-40d4-a4dc-ef7e338463e9
-        - !<reference> 4971a6eb-be98-47df-8c9e-b5301b8028b0
-        - !<reference> 564f91fc-b7a9-4015-ab8e-91c345be362b
         - !<reference> 666e924e-d225-4274-b4da-a62f9e23f3ca
+        - !<reference> 08aa1ffb-c985-40d4-a4dc-ef7e338463e9
+        - !<reference> 564f91fc-b7a9-4015-ab8e-91c345be362b
+        - !<reference> f49a7848-6e96-4e7c-a5cd-6179b74a4b2b
+        - !<reference> 583456a9-5c9c-42e8-bd5b-39fa05702d2f
         - !<reference> a40ad89e-2b00-43ac-b762-29f62da189cf
       garmentCardTextures: !<reference.Texture[]>
         - !<reference> c01238c5-3a48-4875-8ba8-577ab86ad272
@@ -1014,6 +1034,21 @@
   ScriptTypes:
     "":
       {}
+- !<SceneObject/379d963f-c21e-4ba9-a8f5-e8bab01330ca>
+  PrefabRemaps:
+    []
+  Name: BubbleTextAnchor
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -1.800000, y: -3.200000, z: 0.300000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.100000, y: 1.100000, z: 1.100000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    []
 - !<SceneObject/38562bff-09c5-4232-bff1-7ea62a1e7ec5>
   PrefabRemaps:
     []
@@ -1104,6 +1139,21 @@
     []
   Components:
     - !<own> 1f969daa-5809-4500-b314-98d91ccba131
+- !<SceneObject/4222adaf-a6f6-415b-9059-7e6ca8b56abf>
+  PrefabRemaps:
+    []
+  Name: CloseBtnAnchor
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 5.000000, y: 2.000000, z: 1.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 3.500000, y: 3.500000, z: 3.500000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    []
 - !<SceneObject/44097eaf-01da-45fb-8973-3bd8172618de>
   PrefabRemaps:
     []
@@ -1231,9 +1281,9 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -28.000000, y: 26.000000, z: 2.000000}
+    Position: {x: -21.500000, y: 11.500000, z: 3.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    Scale: {x: 0.900000, y: 0.900000, z: 1.000000}
     HasSegmentScaleCompensation: false
   Children:
     []
@@ -1335,7 +1385,7 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: 26.000000, z: 2.000000}
+    Position: {x: 0.000000, y: -21.000000, z: 2.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
@@ -1617,9 +1667,9 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 0.000000, y: -26.000000, z: 0.000000}
+    Position: {x: 0.000000, y: -34.000000, z: 1.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    Scale: {x: 0.920000, y: 0.920000, z: 1.000000}
     HasSegmentScaleCompensation: false
   Children:
     []
@@ -1696,12 +1746,15 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 23.000000, y: 23.500000, z: 5.000000}
+    Position: {x: 30.000000, y: 6.000000, z: 4.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
     Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
     HasSegmentScaleCompensation: false
   Children:
-    []
+    - !<own> f4e5087b-031a-44f7-81b5-70bdf328ab6e
+    - !<own> 379d963f-c21e-4ba9-a8f5-e8bab01330ca
+    - !<own> 4222adaf-a6f6-415b-9059-7e6ca8b56abf
+    - !<own> fb9dbbaa-3e83-43a9-bd8d-45c1ed57966c
   Components:
     - !<own> 92e6c163-fa5f-47d9-ac33-f59a14f11bdc
 - !<SceneObject/7fb3591f-54a2-4aee-b07d-fd10d56538c8>
@@ -1726,11 +1779,13 @@
   Enabled: true
   ScriptAsset: !<reference> 818e0df7-a8fe-4e55-87be-212bb5a7d381
   ScriptInputsDefault:
+    boardWidth: true
+    tapCardToPick: true
     progressTexture: true
     confirmWidth: true
     confirmTextSize: true
     showCenteredTitle: true
-    headerX: true
+    headerSubSize: true
     centeredLabelWidth: true
     centeredLabelTextSize: true
   ScriptTypesDefault:
@@ -1740,9 +1795,11 @@
       plateMaterial: !<reference.Material> 345ffa30-e0d7-45d7-893f-f5ddf6978a60
       selectedMaterial: !<reference.Material> c4ed2baa-c313-44d3-9fde-7a8e913aced1
       confirmMaterial: !<reference.Material> a29a1753-3397-4c03-b79d-141253d547c4
-      itemWidth: !<float> 16.000000
+      itemWidth: !<float> 10.000000
       itemHeight: !<float> 12.000000
-      spacing: !<float> 19.000000
+      spacing: !<float> 13.000000
+      boardWidth: !<float> 52.000000
+      tapCardToPick: true
       stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
       backgroundTexture: !<reference.Texture> 573ebd91-a1cb-4bc4-a63d-3a123a707415
       confirmTexture: !<reference.Texture> 7702ff73-5e68-4255-b9ae-82a6eecb53ec
@@ -1750,14 +1807,16 @@
       arrowMaterial: !<reference.Material> 345ffa30-e0d7-45d7-893f-f5ddf6978a60
       arrowBackTexture: !<reference.Texture> 99985087-e066-4e6b-863e-b68ece24c293
       arrowNextTexture: !<reference.Texture> 1a9fbdbe-0f96-4171-87db-9c20a69786a7
-      stripOffsetY: !<float> -3.000000
-      headerY: !<float> 13.000000
-      confirmY: !<float> -18.000000
+      stripOffsetY: -2.500000
+      headerY: 12.500000
+      confirmY: !<float> -14.000000
       confirmWidth: !<float> 19.000000
       confirmTextSize: 1.500000
       itemTextNavy: true
       showCenteredTitle: false
-      headerX: !<float> 4.000000
+      headerX: !<float> 0.000000
+      headerTitleSize: 1.650000
+      headerSubSize: !<float> 1.000000
       centeredLabelTexture: !<reference.Texture> 7fba85d1-1077-489d-adc5-e600d40698e0
       centeredLabelWidth: 12.500000
       centeredLabelTextSize: 1.100000
@@ -1795,6 +1854,26 @@
     []
   Components:
     - !<own> 335c5f8b-2917-49e8-8af5-220696e9bc09
+- !<ScriptComponent/822d67e8-afb4-4a7d-9f1c-bbc92de13c84>
+  PrefabRemaps:
+    []
+  Name: FitPreview
+  Enabled: true
+  ScriptAsset: !<reference> 6b752a12-001b-4f6e-a67c-d5267feb67d9
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
+      actionMaterial: !<reference.Material> a29a1753-3397-4c03-b79d-141253d547c4
+      backMaterial: !<reference.Material> a803a7da-f109-41ac-af99-e49b0f254bfa
+      boardTexture: !<reference.Texture> 573ebd91-a1cb-4bc4-a63d-3a123a707415
+      menuTexture: !<reference.Texture> 7702ff73-5e68-4255-b9ae-82a6eecb53ec
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/82a4b4e8-283b-441c-8b94-9fdc50c958f2>
   PrefabRemaps:
     []
@@ -1978,7 +2057,13 @@
   Enabled: true
   ScriptAsset: !<reference> 835a6ce6-cc9c-4cfc-9378-026363437e06
   ScriptInputsDefault:
+    cloudSizeCm: true
+    faceX: true
+    faceY: true
     faceRotDeg: true
+    bubbleTextSize: true
+    bubbleTextX: true
+    bubbleTextY: true
     bubbleTextRotDeg: true
     maxBubbleLines: true
     closeBtnX: true
@@ -2003,15 +2088,15 @@
       closeMaterial: !<reference.Material> a803a7da-f109-41ac-af99-e49b0f254bfa
       texCloseBtn: !<reference.Texture> 4765f6b3-32f1-4581-a630-080bf0642b9d
       texQuestionBtn: !<reference.Texture> 12d7e320-b744-4089-957a-3e45b70ea150
-      cloudSizeCm: !<float> 11.000000
-      faceX: !<float> 2.000000
-      faceY: !<float> -1.000000
+      cloudSizeCm: !<float> 10.000000
+      faceX: !<float> 0.000000
+      faceY: !<float> 0.000000
       faceRotDeg: !<float> 0.000000
-      bubbleTextSize: 0.720000
-      bubbleTextX: -2.600000
-      bubbleTextY: -4.200000
+      bubbleTextSize: 0.820000
+      bubbleTextX: -2.500000
+      bubbleTextY: -3.800000
       bubbleTextRotDeg: !<float> 0.000000
-      bubbleWrapChars: !<float> 20.000000
+      bubbleWrapChars: !<float> 18.000000
       maxBubbleLines: !<float> 4.000000
       closeBtnX: 6.500000
       closeBtnY: 1.500000
@@ -2060,9 +2145,9 @@
       stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
       barTexture: !<reference.Texture> 4b1c399d-0a74-481c-a056-ac4f106de594
       boardTexture: !<reference.Texture> 8e716a31-a8d5-49eb-8a40-cae9079ef029
-      barWidth: !<float> 54.000000
-      boardWidth: !<float> 40.000000
-      boardY: !<float> 24.000000
+      barWidth: !<float> 42.000000
+      boardWidth: !<float> 48.000000
+      boardY: !<float> 34.000000
   ScriptTypes:
     "":
       {}
@@ -2335,11 +2420,14 @@
   Enabled: true
   ScriptAsset: !<reference> 818e0df7-a8fe-4e55-87be-212bb5a7d381
   ScriptInputsDefault:
+    boardWidth: true
+    tapCardToPick: true
     progressTexture: true
     confirmWidth: true
     confirmTextSize: true
     itemTextNavy: true
     showCenteredTitle: true
+    headerSubSize: true
     centeredLabelTexture: true
     centeredLabelWidth: true
     centeredLabelTextSize: true
@@ -2351,9 +2439,11 @@
       plateMaterial: !<reference.Material> e0562a8d-c3d7-4cc5-9677-e8f3a43fd188
       selectedMaterial: !<reference.Material> cde28550-dc0f-4aaa-ad4b-677a6025d559
       confirmMaterial: !<reference.Material> a29a1753-3397-4c03-b79d-141253d547c4
-      itemWidth: 13.500000
-      itemHeight: !<float> 24.000000
-      spacing: !<float> 18.000000
+      itemWidth: !<float> 10.000000
+      itemHeight: !<float> 12.000000
+      spacing: !<float> 13.000000
+      boardWidth: !<float> 52.000000
+      tapCardToPick: true
       stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
       backgroundTexture: !<reference.Texture> 573ebd91-a1cb-4bc4-a63d-3a123a707415
       confirmTexture: !<reference.Texture> 7702ff73-5e68-4255-b9ae-82a6eecb53ec
@@ -2361,14 +2451,16 @@
       arrowMaterial: !<reference.Material> 345ffa30-e0d7-45d7-893f-f5ddf6978a60
       arrowBackTexture: !<reference.Texture> 99985087-e066-4e6b-863e-b68ece24c293
       arrowNextTexture: !<reference.Texture> 1a9fbdbe-0f96-4171-87db-9c20a69786a7
-      stripOffsetY: !<float> -3.000000
-      headerY: !<float> 14.000000
-      confirmY: -17.500000
+      stripOffsetY: -2.500000
+      headerY: 12.500000
+      confirmY: !<float> -14.000000
       confirmWidth: !<float> 19.000000
       confirmTextSize: 1.500000
       itemTextNavy: false
       showCenteredTitle: false
-      headerX: !<float> 2.000000
+      headerX: !<float> 0.000000
+      headerTitleSize: 1.650000
+      headerSubSize: !<float> 1.000000
       centeredLabelTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
       centeredLabelWidth: 12.500000
       centeredLabelTextSize: 1.100000
@@ -2376,6 +2468,21 @@
   ScriptTypes:
     "":
       {}
+- !<SceneObject/af323f7a-8952-4232-b097-cc2cdc1b4ead>
+  PrefabRemaps:
+    []
+  Name: BackNavRoot
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 21.500000, y: 11.500000, z: 3.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> c23579b4-edfd-408f-86ef-e33c9bd62b23
 - !<SceneObject/b22d97e6-4c06-4135-af29-d26adb2b9d86>
   PrefabRemaps:
     []
@@ -2582,7 +2689,7 @@
   Enabled: true
   ScriptAsset: !<reference> 814d7419-022c-4d2c-9499-313724a10f5a
   ScriptInputsDefault:
-    buttonSize: true
+    {}
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -2591,8 +2698,8 @@
       buttonTexture: !<reference.Texture> af79c4f8-9f81-4858-a657-dc11fadd23fe
       buttonActiveTexture: !<reference.Texture> ea045047-1143-4c59-bf48-895d371359b0
       dashMaterial: !<reference.Material> c4ed2baa-c313-44d3-9fde-7a8e913aced1
-      stepSpacing: !<float> 9.000000
-      buttonSize: 4.200000
+      stepSpacing: 7.200000
+      buttonSize: 3.800000
   ScriptTypes:
     "":
       {}
@@ -2611,6 +2718,27 @@
     []
   Components:
     []
+- !<ScriptComponent/c23579b4-edfd-408f-86ef-e33c9bd62b23>
+  PrefabRemaps:
+    []
+  Name: BackNav
+  Enabled: true
+  ScriptAsset: !<reference> 26d2b858-e644-494b-b724-9f2eda0a4afb
+  ScriptInputsDefault:
+    offsetX: true
+    offsetY: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
+      backTexture: !<reference.Texture> 99985087-e066-4e6b-863e-b68ece24c293
+      buttonSize: !<float> 4.000000
+      offsetX: !<float> 0.000000
+      offsetY: !<float> 0.000000
+  ScriptTypes:
+    "":
+      {}
 - !<ScriptComponent/c4af89fc-665d-444e-a83c-5d958b99d976>
   PrefabRemaps:
     []
@@ -2620,7 +2748,6 @@
   ScriptInputsDefault:
     volume: true
     duckVolume: true
-    buttonSize: true
     startOn: true
     offsetX: true
     offsetY: true
@@ -2634,7 +2761,7 @@
       offTexture: !<reference.Texture> 20c63a51-08d1-4505-947e-668f318d9e20
       volume: 0.250000
       duckVolume: 0.050000
-      buttonSize: 4.200000
+      buttonSize: 3.800000
       startOn: true
       offsetX: !<float> 0.000000
       offsetY: !<float> 0.000000
@@ -3020,9 +3147,12 @@
   Enabled: true
   ScriptAsset: !<reference> 818e0df7-a8fe-4e55-87be-212bb5a7d381
   ScriptInputsDefault:
+    boardWidth: true
+    tapCardToPick: true
     progressTexture: true
     confirmWidth: true
     confirmTextSize: true
+    headerSubSize: true
     centeredLabelWidth: true
     centeredLabelTextSize: true
   ScriptTypesDefault:
@@ -3032,9 +3162,11 @@
       plateMaterial: !<reference.Material> 345ffa30-e0d7-45d7-893f-f5ddf6978a60
       selectedMaterial: !<reference.Material> c4ed2baa-c313-44d3-9fde-7a8e913aced1
       confirmMaterial: !<reference.Material> a29a1753-3397-4c03-b79d-141253d547c4
-      itemWidth: !<float> 14.000000
+      itemWidth: !<float> 10.000000
       itemHeight: !<float> 12.000000
-      spacing: !<float> 17.000000
+      spacing: !<float> 13.000000
+      boardWidth: !<float> 52.000000
+      tapCardToPick: true
       stickerMaterial: !<reference.Material> 68023ece-83ed-4eb6-ba68-cd5a67ab674a
       backgroundTexture: !<reference.Texture> 573ebd91-a1cb-4bc4-a63d-3a123a707415
       confirmTexture: !<reference.Texture> 7702ff73-5e68-4255-b9ae-82a6eecb53ec
@@ -3042,14 +3174,16 @@
       arrowMaterial: !<reference.Material> 345ffa30-e0d7-45d7-893f-f5ddf6978a60
       arrowBackTexture: !<reference.Texture> 99985087-e066-4e6b-863e-b68ece24c293
       arrowNextTexture: !<reference.Texture> 1a9fbdbe-0f96-4171-87db-9c20a69786a7
-      stripOffsetY: !<float> -4.000000
-      headerY: !<float> 13.000000
-      confirmY: !<float> -18.000000
+      stripOffsetY: -2.500000
+      headerY: 12.500000
+      confirmY: !<float> -14.000000
       confirmWidth: !<float> 19.000000
       confirmTextSize: 1.500000
       itemTextNavy: true
       showCenteredTitle: true
-      headerX: !<float> 2.000000
+      headerX: !<float> 0.000000
+      headerTitleSize: 1.650000
+      headerSubSize: !<float> 1.000000
       centeredLabelTexture: !<reference.Texture> 7fba85d1-1077-489d-adc5-e600d40698e0
       centeredLabelWidth: 12.500000
       centeredLabelTextSize: 1.100000
@@ -3125,9 +3259,9 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: -21.000000, y: 16.000000, z: -1.000000}
-    Rotation: {x: 0.000000, y: 0.000000, z: 6.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    Position: {x: 0.000000, y: 24.000000, z: 1.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.050000, y: 1.050000, z: 1.000000}
     HasSegmentScaleCompensation: false
   Children:
     []
@@ -3272,6 +3406,21 @@
   ScriptTypes:
     "":
       {}
+- !<SceneObject/f4e5087b-031a-44f7-81b5-70bdf328ab6e>
+  PrefabRemaps:
+    []
+  Name: CloudAnchor
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 10.000000, y: 10.000000, z: 10.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    []
 - !<SceneObject/f5d74682-203a-4970-81ea-9fa7b88c96bb>
   PrefabRemaps:
     - 012a3973-9507-4230-a6ff-2b8dfd2154fe: e3ec5982-f5aa-45f3-4551-4d3a92a1f432
@@ -3485,9 +3634,26 @@
     - !<own> 63d288fa-a819-4ab8-a25b-b24949d26fdf
     - !<own> e6bd1787-86a1-4f84-82be-f43e39c11584
     - !<own> 59f1f6b5-cc91-4e1c-91d6-3e6c4485baff
+    - !<own> 1f523cae-8be9-4588-ab48-277e72aa29b2
+    - !<own> af323f7a-8952-4232-b097-cc2cdc1b4ead
   Components:
     - !<own> 996c0d6e-8ae7-45d5-a680-185eb7872033
     - !<own> 0c72a99b-9195-42e3-a2ad-0305fdd2c427
+- !<SceneObject/fb9dbbaa-3e83-43a9-bd8d-45c1ed57966c>
+  PrefabRemaps:
+    []
+  Name: HelpBtnAnchor
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -5.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 4.000000, y: 4.000000, z: 4.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    []
 - !<SceneObject/fcc185fc-4e88-4e9e-9c71-40bd83b1b0ed>
   PrefabRemaps:
     []
