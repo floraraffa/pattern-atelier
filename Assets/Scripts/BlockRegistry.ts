@@ -6,8 +6,9 @@ import { draftStraightSkirt } from "./SkirtBlock";
 import { draftBodice } from "./BodiceBlock";
 import { draftSleeve } from "./SleeveBlock";
 import { draftCircleSkirt } from "./CircleSkirtBlock";
-import { draftPants, draftLeggings, draftUnderwear } from "./MoreBlocks";
+import { draftPants, draftShorts, draftLeggings, draftUnderwear } from "./MoreBlocks";
 import { draftShirt, draftCollar, draftCuff } from "./ShirtBlock";
+import { draftBlazer } from "./BlazerBlock";
 
 export interface CardData {
   id: number;
@@ -58,6 +59,13 @@ export function buildSpecFromCard(card: {
       rise: card.params["rise"],
       legOpening: card.params["legOpening"]
     });
+  } else if (card.block === "shorts") {
+    spec = draftShorts({
+      waist: card.params["waist"],
+      hip: card.params["hip"],
+      length: card.params["length"],
+      rise: card.params["rise"]
+    });
   } else if (card.block === "leggings") {
     spec = draftLeggings({
       waist: card.params["waist"],
@@ -85,6 +93,13 @@ export function buildSpecFromCard(card: {
     spec = draftCuff({
       wrist: card.params["wrist"],
       height: card.params["height"]
+    });
+  } else if (card.block === "blazer") {
+    spec = draftBlazer({
+      bust: card.params["bust"],
+      waist: card.params["waist"],
+      length: card.params["length"],
+      shoulder: card.params["shoulder"]
     });
   }
   if (spec === null) {

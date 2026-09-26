@@ -31,11 +31,13 @@ const BLOCKS_DOC =
   '- bodice (corpiño base, top, blusa, remera, camisa base, parte de arriba de un vestido): {"bust","waist","length"}. length = largo de talle: normal=42, crop/corto=32, largo/por la cadera=48.\n' +
   '- sleeve (manga): {"armhole","length","wrist"}. length: corta=22, 3/4=42, larga=58. armhole=contorno de sisa, wrist=puño.\n' +
   '- pants (pantalón, jean, palazzo): {"waist","hip","length","rise","legOpening"}. length: short=35, capri=80, largo=100. rise (tiro): normal=26, alto=30. legOpening (boca): chupín=34, recto=40, palazzo=56.\n' +
+  '- shorts (short, pantalón corto, bermuda): {"waist","hip","length","rise"}. length (largo por el costado): mini=30, clásico=35, bermuda=45. rise (tiro): normal=26, alto=30. Si piden un pantalón corto, preferí shorts antes que pants con length=35.\n' +
   '- leggings (calza, malla deportiva): {"waist","hip","length","ankle"}. length: ciclista=50, capri=70, larga=90.\n' +
   '- underwear (bombacha, ropa interior): {"hip","rise"}. rise: menos tela=18, clásica=22, tiro alto=28.\n' +
   '- shirt (camisa: cuerpo con cartera de botones y canesú): {"bust","waist","length"}. length típico 68; corta=60, larga=75.\n' +
   '- collar (cuello camisero con pie de cuello): {"neck","height"}. neck típico 39. height: clásico=7, mao/bajo=4.\n' +
   '- cuff (puño de camisa): {"wrist","height"}. wrist típico 22. height: clásico=6, ancho=9.\n' +
+  '- blazer (blazer, saco recto, chaqueta simplificada con solapa recta): {"bust","waist","length","shoulder"}. length: corto=55, clásico=65, largo=75. shoulder (largo de hombro) típico 13. Ya trae delantero, espalda y manga: no le sumes cards sleeve ni collar.\n' +
   "Vocabulario: pollera = falda = skirt. Corpiño = top = bodice. Si dan solo cintura, estimá cadera = cintura + 26 y busto = cintura + 20.\n" +
   "Defaults si no dan medidas: cintura 72, cadera 98, busto 92, sisa 44, puño 24.\n" +
   "Composiciones: vestido = bodice + (skirt o circle_skirt). Mono/jumpsuit = bodice + pants. Conjunto deportivo = bodice + leggings. " +
