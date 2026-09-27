@@ -11,7 +11,7 @@
 
 **AI-powered sewing pattern maker for Snap Spectacles** — built for the CLAD Summer Hackathon, Week 4: *Create*.
 
-Describe a garment, set your body profile, and Pattern Atelier drafts **cut-ready patterns at 1:1 real-world scale** onto your fabric. Editorial atelier UI, minimal language control, and a slim voice assistant — no flag carousel, no cartoon mascot.
+Describe a garment, set your body profile, and Pattern Atelier drafts **cut-ready patterns at 1:1 real-world scale** onto your fabric. An editorial atelier interface with voice guidance, in **11 languages**.
 
 <p align="center">
   <img src="Assets/UI/Atelier/screen_garment.png" alt="Select garment type" width="440">
@@ -26,14 +26,12 @@ Describe a garment, set your body profile, and Pattern Atelier drafts **cut-read
 
 ## How it works
 
-1. **Landing** — enter the atelier. Language via a minimal **EN ▾** pill (not a full-screen flag picker).
+1. **Landing** — enter the atelier; switch language anytime with **EN ▾**.
 2. **Garment** — top, dress, trousers, skirt, jacket.
 3. **Body / Measure** — woman or man profile, then size / measurements.
 4. **Design** — voice or type your style; AI turns it into parametric pattern blocks.
 5. **Preview** — approve the look before cutting.
 6. **Fabric** — project pieces on a surface-leveled board: **yellow = cut**, **white = seam**.
-
-An **A · ASSISTANT** status strip speaks short guidance (TTS) without a character mascot.
 
 ## Tech
 
