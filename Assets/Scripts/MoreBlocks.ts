@@ -1,4 +1,4 @@
-// Bloques paramétricos adicionales: pantalón base, mallas (calza) y
+// Bloques paramétricos adicionales: pantalón base, short, mallas (calza) y
 // ropa interior (bombacha). Trazados simplificados pero creíbles, en cm.
 
 import { PatternPiece, PatternSpec, Point2, p, quadBezier } from "./PatternTypes";
@@ -61,6 +61,73 @@ export function draftPants(params: PantsParams): PatternSpec {
   const back = pantsHalf(t("pieceBack"), params.waist / 4 + 2, params.hip / 4 + 2.5, params.length, rise + 1, params.hip / 8 + 1, legHalf + 1, 3);
 
   return { name: "Pantalón base", section: "pantalones", pieces: [front, back] };
+}
+
+// ---------- SHORT ----------
+
+export interface ShortsParams {
+  waist: number;
+  hip: number;
+  length?: number; // largo por el costado desde cintura (default 35)
+  rise?: number; // tiro (default 26)
+}
+
+function shortsHalf(
+  name: string,
+  quarterWaist: number,
+  quarterHip: number,
+  length: number,
+  rise: number,
+  crotchExt: number,
+  dartIntake: number
+): PatternPiece {
+  // Mismo planteo que el pantalón: CF/CB en x=0, cintura arriba, ruedo en y=0.
+  // Con el largo corto, el ruedo queda apenas por debajo del tiro y casi tan
+  // ancho como la línea de cadera (sin afinar hacia la botamanga).
+  const riseY = length - rise;
+  const legCenter = (quarterHip - crotchExt) / 2;
+  const hemOuter = quarterHip - 1.2; // leve entalle del costado hacia el ruedo
+  const hemInner = -crotchExt + 1.2; // la entrepierna vuelve un poco al centro
+
+  const outline: Point2[] = [];
+  // CF/CB en x=0, cintura arriba
+  outline.push(p(0, length));
+  outline.push(p(quarterWaist + dartIntake, length));
+  // Costado: cintura → cadera → ruedo
+  outline.push(...quadBezier(p(quarterWaist + dartIntake, length), p(quarterHip, length - rise * 0.5), p(quarterHip, riseY), 8));
+  outline.push(...quadBezier(p(quarterHip, riseY), p(quarterHip - 0.5, riseY * 0.5), p(hemOuter, 0), 6));
+  // Ruedo (se termina con doblez, igual que el pantalón)
+  outline.push(p(hemInner, 0));
+  // Entrepierna corta: ruedo → punta de tiro, apenas ahuecada
+  outline.push(...quadBezier(p(hemInner, 0), p((hemInner - crotchExt) * 0.5 - 0.6, riseY * 0.55), p(-crotchExt, riseY), 6));
+  // Curva de tiro: punta → línea de centro
+  outline.push(...quadBezier(p(-crotchExt, riseY), p(-crotchExt * 0.1, riseY + rise * 0.22), p(0, riseY + rise * 0.5), 8));
+  // Centro hasta cintura (cierra el polígono)
+
+  const internal: Point2[][] = [];
+  if (dartIntake > 0) {
+    const dartCenter = (quarterWaist + dartIntake) * 0.55;
+    const halfDart = dartIntake / 2;
+    internal.push([p(dartCenter - halfDart, length), p(dartCenter, length - 9), p(dartCenter + halfDart, length)]);
+  }
+  internal.push([p(legCenter, length * 0.6), p(legCenter, length * 0.15)]);
+  internal.push([p(legCenter - 1.5, length * 0.15 + 3), p(legCenter, length * 0.15)]);
+  internal.push([p(legCenter + 1.5, length * 0.15 + 3), p(legCenter, length * 0.15)]);
+
+  return { name: name, outline: outline, internalLines: internal, cutOnFold: false, doubleFabric: true };
+}
+
+export function draftShorts(params: ShortsParams): PatternSpec {
+  const length = params.length !== undefined ? params.length : 35;
+  // El tiro no puede comerse el largo: dejamos al menos 4 cm de entrepierna
+  // (cuenta también el +1 del tiro trasero).
+  const rise = Math.min(params.rise !== undefined ? params.rise : 26, length - 5);
+
+  // Delantero sin pinza; el trasero lleva una pinza de 3 cm como el pantalón.
+  const front = shortsHalf(t("pieceFront"), params.waist / 4 + 1, params.hip / 4 + 1.5, length, rise, params.hip / 16 + 1, 0);
+  const back = shortsHalf(t("pieceBack"), params.waist / 4 + 2, params.hip / 4 + 2.5, length, rise + 1, params.hip / 8 + 1, 3);
+
+  return { name: "Short base", section: "pantalones", pieces: [front, back] };
 }
 
 // ---------- MALLAS / CALZA ----------
