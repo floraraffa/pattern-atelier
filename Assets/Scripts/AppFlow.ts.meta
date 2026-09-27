@@ -29,6 +29,7 @@
   PackagePolicy: CanBeUnpacked
   ScriptInputsHidden:
     ai: false
+    atelierFace: false
     backNav: false
     cards: false
     demoSeed: false
@@ -39,6 +40,7 @@
     genderLabelTextures: false
     langCardTextures: false
     langCarousel: false
+    langDropdown: false
     logoObject: false
     mascot: false
     progress: false
@@ -67,6 +69,8 @@
       ai: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
       renderer: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
       fitPreview: !<MappingBased.AssignableType_11> 00000000-0000-0000-0000-000000000000
+      atelierFace: !<MappingBased.AssignableType_12> 00000000-0000-0000-0000-000000000000
+      langDropdown: !<MappingBased.AssignableType_13> 00000000-0000-0000-0000-000000000000
       demoSeed: false
       logoObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
       langCardTextures: !<reference.Texture[]>
@@ -96,6 +100,8 @@
     - // @input AssignableType_9 ai
     - // @input AssignableType_10 renderer
     - // @input AssignableType_11 fitPreview
+    - // @input AssignableType_12 atelierFace
+    - // @input AssignableType_13 langDropdown
     - // @input bool demoSeed
     - // @input SceneObject logoObject
     - "// @input Asset.Texture[] langCardTextures"

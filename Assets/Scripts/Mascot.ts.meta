@@ -45,8 +45,13 @@
     helpBtnSize: false
     helpBtnX: false
     helpBtnY: false
+    markSizeCm: false
     maxBubbleLines: false
     music: false
+    plateMaterial: false
+    statusTextSize: false
+    stripHeightCm: false
+    stripWidthCm: false
     texCloseBtn: false
     texClosed: false
     texError: false
@@ -92,6 +97,11 @@
       helpBtnX: !<float> 0.000000
       helpBtnY: !<float> -4.000000
       helpBtnSize: !<float> 5.000000
+      plateMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      stripWidthCm: !<float> 42.000000
+      stripHeightCm: 3.200000
+      markSizeCm: 1.400000
+      statusTextSize: 0.720000
       ttsVoice: nova
       ttsEnabled: true
       music: !<MappingBased.AssignableType_1> 00000000-0000-0000-0000-000000000000
@@ -117,14 +127,19 @@
     - // @input float bubbleTextX = -2.5
     - // @input float bubbleTextY = -3.8
     - // @input float bubbleTextRotDeg
-    - // @input float bubbleWrapChars = 26
-    - // @input float maxBubbleLines = 4
+    - // @input float bubbleWrapChars = 72
+    - // @input float maxBubbleLines = 1
     - // @input float closeBtnX = 6.5
     - // @input float closeBtnY = 1.5
     - // @input float closeBtnSize = 4
     - // @input float helpBtnX
     - // @input float helpBtnY = -4
     - // @input float helpBtnSize = 5
+    - // @input Asset.Material plateMaterial
+    - // @input float stripWidthCm = 48
+    - // @input float stripHeightCm = 4.4
+    - // @input float markSizeCm = 0.95
+    - // @input float statusTextSize = 0.58
     - '// @input string ttsVoice = "nova"'
     - // @input bool ttsEnabled = true
     - // @input AssignableType_1 music

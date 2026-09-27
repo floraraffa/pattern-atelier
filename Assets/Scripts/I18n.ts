@@ -81,6 +81,8 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
     chooseLang: "Elegí tu idioma",
     atelierSpeak: "Tu taller va a hablar con vos",
     mIntroLang: "¡Hola! Soy Nube ☁ Elegí tu idioma",
+    mIntroLanding: "Bienvenida al atelier. Tocá ENTER ATELIER para empezar.",
+    mLangChanged: "Idioma actualizado.",
     sizeTitle: "Elegí tu talle",
     mSize: "Para saber tu talle, medí tu cintura con un centímetro. Cada talle muestra busto·cintura·cadera en cm. Si dudás entre dos, elegí el más grande.",
     cutLine: "✂ CORTAR por la línea amarilla",
@@ -135,6 +137,8 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
     chooseLang: "Choose your language",
     atelierSpeak: "Your atelier will speak with you",
     mIntroLang: "Hi! I'm Cloud ☁ Pick your language",
+    mIntroLanding: "Welcome to the atelier. Tap ENTER ATELIER to begin.",
+    mLangChanged: "Language updated.",
     sizeTitle: "Pick your size",
     mSize: "To find your size, measure your waist with a tape. Each size shows bust·waist·hip in cm. If in doubt, pick the larger one.",
     cutLine: "✂ CUT along the yellow line",
@@ -568,17 +572,17 @@ const STRINGS: { [lang: string]: { [key: string]: string } } = {
 
 // Pasos del flujo (botonera de progreso)
 const STEPS: { [lang: string]: string[] } = {
-  es: ["IDIOMA", "PRENDA", "TALLE", "ESTILO", "MOLDES", "TERMINADA", "CORTE"],
-  en: ["LANGUAGE", "GARMENT", "SIZE", "STYLE", "PATTERNS", "FINISHED", "CUT"],
-  pt: ["IDIOMA", "PEÇA", "TAMANHO", "ESTILO", "MOLDES", "FINAL", "CORTE"],
-  fr: ["LANGUE", "VÊTEMENT", "TAILLE", "STYLE", "PATRONS", "FINI", "COUPE"],
-  it: ["LINGUA", "CAPO", "TAGLIA", "STILE", "CARTAMODELLI", "FINITO", "TAGLIO"],
-  de: ["SPRACHE", "KLEIDUNG", "GRÖSSE", "STIL", "SCHNITTE", "FERTIG", "ZUSCHNITT"],
-  ru: ["ЯЗЫК", "ОДЕЖДА", "РАЗМЕР", "СТИЛЬ", "ВЫКРОЙКИ", "ГОТОВО", "РАСКРОЙ"],
-  zh: ["语言", "服装", "尺码", "款式", "纸样", "成品", "裁剪"],
-  ja: ["言語", "服", "サイズ", "スタイル", "型紙", "完成", "裁断"],
-  ar: ["اللغة", "الملابس", "المقاس", "الستايل", "الباترونات", "نهائي", "القص"],
-  fa: ["زبان", "لباس", "سایز", "استایل", "الگوها", "تمام", "برش"]
+  es: ["INICIO", "PRENDA", "CUERPO", "MEDIDAS", "DISEÑO", "IA", "VISTA", "TELA"],
+  en: ["ENTER", "GARMENT", "BODY", "MEASURE", "DESIGN", "AI", "PREVIEW", "FABRIC"],
+  pt: ["INÍCIO", "PEÇA", "CORPO", "MEDIDAS", "DESIGN", "IA", "VISTA", "TECIDO"],
+  fr: ["ENTRÉE", "VÊTEMENT", "CORPS", "MESURES", "DESIGN", "IA", "APERÇU", "TISSU"],
+  it: ["INIZIO", "CAPO", "CORPO", "MISURE", "DESIGN", "IA", "ANTEPRIMA", "TESSUTO"],
+  de: ["START", "KLEIDUNG", "KÖRPER", "MASSE", "DESIGN", "KI", "VORSCHAU", "STOFF"],
+  ru: ["ВХОД", "ОДЕЖДА", "ФИГУРА", "МЕРКИ", "ДИЗАЙН", "ИИ", "ПРЕВЬЮ", "ТКАНЬ"],
+  zh: ["进入", "服装", "体型", "尺码", "设计", "AI", "预览", "面料"],
+  ja: ["入場", "服", "体型", "採寸", "デザイン", "AI", "プレビュー", "生地"],
+  ar: ["دخول", "الملابس", "الجسم", "القياسات", "التصميم", "AI", "معاينة", "القماش"],
+  fa: ["ورود", "لباس", "بدن", "اندازه", "طراحی", "AI", "پیش‌نمایش", "پارچه"]
 };
 
 export function stepNames(): string[] {
@@ -610,6 +614,10 @@ export function t(key: string): string {
   const table = STRINGS[currentLang];
   if (table !== undefined && table[key] !== undefined) {
     return table[key];
+  }
+  const en = STRINGS["en"];
+  if (en !== undefined && en[key] !== undefined) {
+    return en[key];
   }
   const fallback = STRINGS["es"][key];
   return fallback !== undefined ? fallback : key;

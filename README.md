@@ -6,32 +6,37 @@
 
 **AI-powered sewing pattern maker for Snap Spectacles** — built for the CLAD Summer Hackathon, Week 4: *Create*.
 
-Describe a garment with your voice, pick your size, and Pattern Atelier drafts real, cut-ready sewing patterns projected at **1:1 real-world scale** onto your fabric — so you can cut along the projected lines with real scissors. A talking cloud mascot ("Nube") guides beginners step by step, in **11 languages** (including Farsi, Arabic, Chinese and Japanese).
+Describe a garment with your voice, pick your size, and Pattern Atelier drafts real, cut-ready sewing patterns projected at **1:1 real-world scale** onto your fabric — so you can cut along the projected lines with real scissors. A talking assistant guides beginners step by step, in **11 languages** (including Farsi, Arabic, Chinese and Japanese).
 
 ## How it works
-1. **Language** — swipeable carousel; the whole UI, mascot voice and AI switch live.
-2. **Garment** — skirt, bodice, shirt, pants, dress, jumpsuit, leggings, underwear.
-3. **Size** — gender + XXS→4XL size guide with real measurements.
-4. **Style** — dictate your request ("a 1950s dress with a circle skirt"), or type it. The AI decomposes it into parametric pattern blocks.
-5. **Patterns** — each piece becomes a card: modify it by voice, or preview the finished look.
-6. **Finished** — AI fit note plus a Burda-style illustration of the sewn garment, so you can check silhouette before cutting.
-7. **Cut** — the pattern is projected at real scale on a surface-leveled board: thick yellow line = cut, white line = seam, per-piece labels (ON FOLD / ×2 DOUBLE LAYER). Nube speaks a beginner-friendly cutting guide in your language.
+1. **Landing** — editorial atelier board; language via minimal **EN ▾** (not a flag carousel).
+2. **Garment** — top, dress, trousers, skirt, jacket (mockup carousel).
+3. **Body / Measure** — woman/man profile + size / measurements.
+4. **Design** — dictate or type the style; AI decomposes into parametric pattern blocks.
+5. **Preview** — approve the look before cutting.
+6. **Fabric** — pattern projected at real scale on a surface-leveled board: thick yellow line = cut, white line = seam.
 
 ## Tech
 - **Lens Studio 5.23** · Spectacles (SPECS) · Spectacles Interaction Kit
-- **Remote Service Gateway**: OpenAI (GPT-4o + TTS) → Gemini → DeepSeek fallback chain for text; Snap3D / gpt-image / Imagen for the finished-garment illustration
-- **ASR Module** for voice input (40+ languages, on-device); keyboard fallback in the editor preview
-- Parametric drafting blocks (skirt, circle skirt, bodice, sleeve, shirt + collar + cuff, pants, leggings, underwear) — the AI parameterizes real pattern-making blocks, so every output is sewable
-- UI lazy-follows when you walk or turn; the pattern board stays where you place it and snaps flat to real surfaces via World Query on Specs
-- All UI hand-crafted art by Florencia Raffa, assembled programmatically
+- **Remote Service Gateway**: OpenAI (GPT-4o + TTS) → Gemini → DeepSeek fallback chain for text; Snap3D / gpt-image / Imagen for illustrations
+- **ASR Module** for voice input; keyboard fallback in editor preview
+- Parametric drafting blocks (skirt, circle skirt, bodice, sleeve, shirt + collar + cuff, pants, leggings, underwear)
+- UI lazy-follows; pattern board snaps flat to real surfaces via World Query on Specs
+- UI art by Florencia Raffa + editorial mockup boards
 
-## Setup
+## Setup (this 5.23 project)
 1. Open the project in Lens Studio 5.23+.
-2. Install **Remote Service Gateway** and generate your tokens (**Window → Remote Service Gateway Token**), then paste them into the `RemoteServiceGatewayCredentials` object in the scene (OpenAI / Google / Snap).
-3. Refresh the preview, or push to Spectacles.
+2. Remote Service Gateway tokens: paste into `RemoteServiceGatewayCredentials` (**Window → Remote Service Gateway Token**) if needed.
+3. Refresh the preview, or push to compatible Specs hardware.
 
-## Prompt log
-See [CLAD-LOG.md](CLAD-LOG.md) for the development log and representative prompt transcript.
+## Spectacles (2024) / Lens Studio 5.15 demo rebuild
+
+This repo is the **5.23 CLAD** reference. For **Spectacles 2024**, rebuild a **fresh 5.15 project** — do not open this `.esproj` in 5.15.
+
+Full pack (paste prompts, build spec, script order, scene wiring, shot list, art):
+
+- [`docs/5.15-demo/README.md`](docs/5.15-demo/README.md)
+- Start the dedicated Cursor window with [`docs/5.15-demo/WINDOW_B_5.15_ONDEVICE.md`](docs/5.15-demo/WINDOW_B_5.15_ONDEVICE.md)
 
 ## Built with CLAD
-Developed end-to-end in conversation with Claude (Claude Code + Lens Studio MCP): parametric pattern math, AI orchestration, i18n, UI assembly and in-editor testing were all driven through the CLAD workflow.
+Developed end-to-end with Claude + Lens Studio MCP: parametric pattern math, AI orchestration, i18n, UI assembly and in-editor testing.
